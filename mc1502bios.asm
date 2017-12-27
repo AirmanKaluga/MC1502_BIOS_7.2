@@ -3112,117 +3112,37 @@ loc_FF07B:				; ...
 		assume es:nothing
 		jmp	[cs:off_FF045+bp]
 ; ---------------------------------------------------------------------------
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  38h	; 8
-		db  28h	; (
-		db  2Dh	; -
-		db  0Ah
-		db  1Fh
-		db    6
-		db  19h
-		db  1Ch
-		db    2
-		db    7
-		db    6
-		db    7
-		db    0
-		db    0
-		db    0
-		db    0
-		db  71h	; q
-		db  50h	; P
-		db  5Ah	; Z
-		db  0Ah
-		db  1Fh
-		db    6
-		db  19h
-		db  1Ch
-		db    2
-		db    7
-		db    6
-		db    7
-		db    0
-		db    0
-		db    0
-		db    0
-		db  38h	; 8
-		db  28h	; (
-		db  2Dh	; -
-		db  0Ah
-		db  7Fh	; 
-		db    6
-		db  64h	; d
-		db  70h	; p
-		db    2
-		db    1
-		db    6
-		db    7
-		db    0
-		db    0
-		db    0
-		db    0
-		db  61h	; a
-		db  50h	; P
-		db  52h	; R
-		db  0Fh
-		db  19h
-		db    6
-		db  19h
-		db  19h
-		db    2
-		db  0Dh
-		db  0Bh
-		db  0Ch
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    8
-		db    0
-		db  10h
-		db    0
-		db  40h	; @
-		db    0
-		db  40h	; @
-		db  28h	; (
-		db  28h	; (
-		db  50h	; P
-		db  50h	; P
-		db  28h	; (
-		db  28h	; (
-		db  50h	; P
-		db  50h	; P
-		
-		
-video_hdwr_mode	db  2Ch	; ,
-		db  28h	; (
-		db  2Dh	; -
-		db  29h	; )
-		db  2Ah	; *
-		db  2Eh	; .
-		db  3Eh	; >
-		db  29h	; )
+;---------------------------------------------------------------------------------------------------
+; Interrupt 1Dh - Video Parameter Tables
+;---------------------------------------------------------------------------------------------------
+proc	int_1D	far
+
+	db	38h, 28h, 2Dh, 0Ah, 1Fh, 6, 19h	; Init string for 40x25 color
+	db	1Ch, 2, 7, 6, 7
+	db	0, 0, 0, 0
+
+	db	71h, 50h, 5Ah, 0Ah, 1Fh, 6, 19h	; Init string for 80x25 color
+	db	1Ch, 2, 7, 6, 7
+	db	0, 0, 0, 0
+
+	db	38h, 28h, 2Dh, 0Ah, 7Fh, 6, 64h	; Init string for graphics
+	db	70h, 2, 1, 6, 7
+	db	0, 0, 0, 0
+
+	db	61h, 50h, 52h, 0Fh, 19h, 6, 19h	; Init string for 80x25 b/w
+	db	19h, 2, 0Dh, 0Bh, 0Ch
+	db	0, 0, 0, 0
+
+regen_len	dw	0800h			; Regen length, 40x25
+		dw	1000h			;	        80x25
+		dw	4000h			;	        graphics
+		dw	4000h
+
+max_cols	db	28h, 28h, 50h, 50h, 28h, 28h, 50h, 50h	; Maximum columns
+video_hdwr_mode db	2Ch, 28h, 2Dh, 29h, 2Ah, 2Eh, 1Eh, 29h	; Table of mode sets
+mul_lookup      db	00h, 00h, 10h, 10h, 20h, 20h, 20h, 30h	; Table lookup for multiply
+		db 13 dup (0)
+endp	int_1D
 ; ---------------------------------------------------------------------------
 
 loc_FF0FC:				; ...
