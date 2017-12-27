@@ -1,8 +1,10 @@
 		Ideal
 		;p8086n
 		model small ;; we produce .EXE file 
-		
-		; Force far jump
+;---------------------------------------------------------------------------------------------------
+; Macros
+;---------------------------------------------------------------------------------------------------
+; Pad code to create entry point at specified address (needed for 100% IBM BIOS compatibility)
 macro	jmpfar	segm, offs
 	db	0EAh;
 	dw	offs, segm
@@ -31,7 +33,7 @@ segment		code byte public 'CODE'
 
 
 Banner:
-		db  0Ah
+str_banner	db  0Ah
 		db  0Dh
 		db    7
     		db 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev '
@@ -2294,6 +2296,7 @@ loc_FEC38:				; ...
 		db    0
 		db    0
 ; ---------------------------------------------------------------------------
+proc		int_13h	near
 		cld
 		sti
 		push	bx
@@ -2321,6 +2324,7 @@ loc_FEC38:				; ...
 		pop	cx
 		pop	bx
 		retf	2
+endp		int_13h
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -5996,6 +6000,7 @@ loc_FFE92:				; ...
 		db    0
 		db    0
 ; ---------------------------------------------------------------------------
+proc		int_08h near
 		push	ds
 		push	ax
 		push	dx
@@ -6034,11 +6039,12 @@ loc_FFEE7:				; ...
 		pop	ds
 		assume ds:nothing
 		iret
+endp		int_08h
 ; ---------------------------------------------------------------------------
 		db    0
 		db    0
 int_vec_table_1:		
-		dw 0FEA5h	; Offest int_08h
+		dw offset int_08h         ; Offest int_08h
 		dw offset int_09h         ; Offset int_09h
 		dw offset dummy_int       ; Offset int_0Ah
 		dw offset dummy_int       ; Ofsset int_0Bh
@@ -6049,7 +6055,7 @@ int_vec_table_1:
 		dw 0F065h	          ; Offset int_10h
 		dw 0F84Dh	          ; Ofsset int_11h
 		dw 0F841h	          ; Offset int_12h
-		dw 0EC59h	          ; Offset int_13h
+		dw offset int_13h         ; Offset int_13h
 		dw 0E751h	          ; Offset int_14h
 		dw 0F859h	          ; Offset int_15h
 		dw 0E82Eh	          ; Offset int_16h
