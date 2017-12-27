@@ -9,6 +9,9 @@ macro	jmpfar	segm, offs
 endm
 
 
+; Line feed and carriage return
+LF	equ	0Ah
+CR	equ	0Dh
 
 
 dsk_motor_stat equ 03Fh
@@ -21,17 +24,17 @@ dsk_motor_stat_ equ 043Fh
 ; ===========================================================================
 		
 ; Segment type:	Pure code
-segment		f000 byte public 'CODE'
-		assume cs:f000
+segment		code byte public 'CODE'
+		assume cs:code
 		org 0E000h
 		assume es:nothing, ss:nothing, ds:nothing
 
 
-aNewOptimizedSu:
+Banner:
 		db  0Ah
 		db  0Dh
 		db    7
-    	db 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev '
+    		db 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev '
 		db '1996'
 loc_0E047h:
 		db 0Ah
@@ -57,7 +60,7 @@ loc_0E047h:
 		
 ; ---------------------------------------------------------------------------
 
-loc_FE05B:				; ...
+warm_boot:				; ...
 		cli
 		cld
 		mov	al, 88h
@@ -212,11 +215,11 @@ loc_FE148:				; ...
 		mov	ax, 3
 		int	10h		; - VIDEO - SET	VIDEO MODE
 					; AL = mode
-		mov	si, aNewOptimizedSu
+		mov	si, Banner
 		call	sub_FE24F
 		cmp	bp, 1234h
 		jz	short loc_FE1AC
-		mov	si, offset aTestingSystemM
+		mov	si, offset TestingSystem
 		call	sub_FE24F
 		mov	cx, 2
 		call	sub_FE247
@@ -416,7 +419,7 @@ proc		sub_FE26B near		; ...
 endp		sub_FE26B
 
 ; ---------------------------------------------------------------------------
-aTestingSystemM:
+TestingSystem:
 		db 0Ah, 0Dh, 'Testing system memory ...'
 		db 0Ah, 0Dh, 'Complete 000 K', 0
 		
@@ -1930,7 +1933,7 @@ loc_FEA63:				; ...
 		cmp	al, 53h
 		jnz	short near ptr unk_FEA9B
 		mov	[word ptr ds:72h], 1234h
-		jmp	loc_FE05B
+		jmp	warm_boot
 ; ---------------------------------------------------------------------------
 unk_FEA77	db  52h	; R		; ...
 unk_FEA78	db  4Fh	; O		; ...
@@ -6131,7 +6134,7 @@ loc_FFF54:				; ...
 					; BH = current active display page
 		mov	cl, ah
 		mov	ch, 19h
-		call	sub_FFFCB
+		call	print_cr_lf
 		push	cx
 		mov	ah, 3
 		int	10h		; - VIDEO - READ CURSOR	POSITION
@@ -6171,7 +6174,7 @@ loc_FFF8D:				; ...
 		xor	dl, dl
 		mov	ah, dl
 		push	dx
-		call	sub_FFFCB
+		call	print_cr_lf
 		pop	dx
 		inc	dh
 		cmp	ch, dh
@@ -6205,23 +6208,26 @@ loc_FFFC5:				; ...
 ; =============== S U B	R O U T	I N E =======================================
 
 
-proc		sub_FFFCB near		; ...
+;--------------------------------------------------------------------------------------------------
+; Prints CR+LF on the printer
+;--------------------------------------------------------------------------------------------------
+proc    	print_cr_lf     near
 		xor	dx, dx
 		xor	ah, ah
-		mov	al, 0Ah
+		mov	al, LF
 		int	17h		; PRINTER - OUTPUT CHARACTER
 					; AL = character, DX = printer port (0-3)
 					; Return: AH = status bits
 		xor	ah, ah
-		mov	al, 0Dh
+		mov	al, CR
 		int	17h		; PRINTER - OUTPUT CHARACTER
 					; AL = character, DX = printer port (0-3)
 					; Return: AH = status bits
 		retn
-endp		sub_FFFCB
+endp		print_cr_lf	
 
 ; ---------------------------------------------------------------------------
-; Second interrupt table& This table  create for scanning keyboard matrix usualy ine hardware interrupt
+; Second interrupt table procedure. This table create for scanning keyboard matrix usualy is one hardware interrupt
 ;---------------------------------------------------------------------------
 proc		int_68h near
 		int	8		;  - IRQ0 - TIMER INTERRUPT
@@ -6259,15 +6265,23 @@ proc		int_6Fh near
 endp		int_6Fh
 ; ---------------------------------------------------------------------------
 		db    0
+;--------------------------------------------------------------------------------------------------
+; Power-On Entry Point
+;--------------------------------------------------------------------------------------------------
+proc		power	far				;   CPU begins here on power up
+		jmpfar	0F000h, warm_boot
+endp 		power
 ; ---------------------------------------------------------------------------
-		jmpfar	0F000h, loc_FE05B
-; ---------------------------------------------------------------------------
-a012196		db '01/21/96',0
 
-		db 0FFh
+;--------------------------------------------------------------------------------------------------
+; BIOS Release Date and Signature
+;--------------------------------------------------------------------------------------------------
+date		db '01/21/96',0
+
+		db 0FEh
 		;db    0
 
-ends		f000
+ends		code
 
 
 		end
