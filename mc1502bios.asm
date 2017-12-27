@@ -171,24 +171,18 @@ vec_table_2_loop:				; ...
 		mov	si, offset BDA
 		xor	di, di
 		rep movsw
-
+@@Test_type_fdc:
 		in	al, 4Bh
 		not	al
 		out	4Bh, al
 		mov	ah, al
-		jmp	near ptr  loc_FE101
-; ---------------------------------------------------------------------------
-		db 3 dup (0)
-; ---------------------------------------------------------------------------
-
-loc_FE101:				; ...
 		in	al, 4Bh
-		mov	si, offset unk_FE2CB
+		mov	si, offset port_int_fdc
 		cmp	al, ah
-		jz	short loc_FE10D
-		mov	si, offset unk_FE2CF
+		jz	short init_fdc_BDA
+		mov	si, offset port_ext_fdc
 
-loc_FE10D:				; ...
+init_fdc_BDA:				; ...
 		mov	di, 42h
 		movsw
 		movsw
@@ -208,6 +202,7 @@ loc_FE10D:				; ...
 		mov	ds, ax
 		assume ds:nothing
 
+		dw 3 dup (0)
 loc_FE12E:				; ...
 		mov	ax, [bx]
 		not	ax
@@ -442,16 +437,16 @@ FailedAt	db 7, 0Ah, 0Dh, 'Failed at ', 0
 
 SystemNotFound	db 7, 0Ah, 0Dh, 'System not found.', 0Ah, 0Dh, 0
  
-unk_FE2CB:
-		db  48h	; H		; ...
-		db  4Ch	; L
-		db  4Eh	; N
-		db  4Dh	; M
+port_int_fdc:
+		db  48h	 		; ...
+		db  4Ch	 
+		db  4Eh	 
+		db  4Dh	 
 		
-unk_FE2CF:	
+port_ext_fdc:	
 		db  0Ch
-		db    0
-		db    8
+		db  00h
+		db  08h
 		db  0Ah
 
 
