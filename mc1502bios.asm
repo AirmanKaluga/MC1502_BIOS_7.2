@@ -41,7 +41,7 @@ str_banner	db  0Ah
 loc_0E047h:
 		db 0Ah
 		db 0Dh
-		db  18 dup  (0)
+		db 18 dup (0)
 	
 ; ---------------------------------------------------------------------------
 proc		post	near
@@ -185,7 +185,6 @@ init_fdc_BDA:				; ...
 		mov	ds, ax
 		assume ds:nothing
 
-		dw 3 dup (0)
 loc_FE12E:				; ...
 		mov	ax, [bx]
 		not	ax
@@ -489,13 +488,11 @@ loc_FE308:				; ...
 		mov	cl, [ds:0048h]
 		shl	al, cl
 		cmp	al, [si+46h]
-		nop
 		jz	short loc_FE360
 		inc	dx
 		inc	dx
 		out	dx, al
 		xchg al, [si+ 0046h]
-		nop
 		dec	dx
 		dec	dx
 		out	dx, al
@@ -594,7 +591,6 @@ loc_FE3B7:				; ...
 		mov	dl, [ds:43h]
 		in	al, dx
 		mov	[byte ptr si+0046h], 0
-		nop
 		pop	ax
 		retn
 endp		sub_FE394
@@ -1298,7 +1294,6 @@ proc		int_14h
 		and	bl, 0Eh
 		mov	ax, cs:data_28[bx]
 		out	41h, al		; Timer	8253-5 (AT: 8254.2).
-		nop
 		mov	al, ah
 		out	41h, al		; Timer	8253-5 (AT: 8254.2).
 		inc	dx
@@ -1353,8 +1348,6 @@ loc_FE7BA:				; ...
 loc_FE7C9:				; ...
 		jmp	short loc_FE7F3
 ; ---------------------------------------------------------------------------
-		nop
-
 loc_FE7CC:				; ...
 		mov	ah, 0
 		push	ax
@@ -1483,7 +1476,6 @@ loc_FE845:				; ...
 		mov	bx, [ds:1Ah]
 		cmp	bx, [ds:1Ch]
 		sti
-		nop
 		jz	short loc_FE845
 		mov	ax, [bx]
 		call	sub_FE5E8
@@ -1516,7 +1508,6 @@ proc		sub_FE875 near		; ...
 		add	bx, 2
 		
 		cmp	bx, 0x003E
-		nop
 		jnz	short locret_FE881
 		mov	bx, 1Eh
 endp		sub_FE875 ; sp-analysis	failed
@@ -3251,7 +3242,6 @@ loc_FF1B5:				; ...
 		shl	ax, 1
 		xchg	ax, si
 		mov	[si+50h], dx
-		nop
 		cmp	[byte ptr ds:49h], 4
 		jnb	short loc_FF1EF
 		cmp	bh, [ds:62h]
@@ -3282,7 +3272,6 @@ loc_FF1F1:				; ...
 		xor	bh, bh
 		shl	bx, 1
 		mov	dx, [bx+50h]
-		nop ; TODO
 		mov	cx, [ds:60h]
 		pop	es
 		pop	ds
@@ -3316,7 +3305,6 @@ loc_FF20C:				; ...
 		shl	ax, 1
 		xchg	ax, si
 		mov	bx, [si+50h]
-		nop ; TODO
 		mov	ax, [ds:4Ah]
 		mul	bh
 		add	cx, ax
@@ -3484,7 +3472,6 @@ loc_FF33F:				; ...
 		shl	ax, 1
 		xchg	ax, si
 		mov	cx, [si+50h]
-		nop ; TODO
 		mov	ax, [ds:4Ch]
 		mul	bx
 		xchg	ax, cx
@@ -3529,7 +3516,6 @@ loc_FF37C:				; ...
 		shl	ax, 1
 		xchg	ax, si
 		mov	cx, [si+50h]
-		nop
 		mov	ax, [ds:4Ch]
 		mul	bx
 		xchg	ax, cx
@@ -3563,7 +3549,6 @@ loc_FF3B6:				; ...
 		shl	ax, 1
 		xchg	ax, si
 		mov	cx, [si+50h]
-		nop
 		mov	ax, [ds:4Ch]
 		mul	bx
 		xchg	ax, cx
@@ -3714,7 +3699,6 @@ loc_FF4AF:				; ...
 		shl	cx, 1
 		mov	si, cx
 		mov	dx, [si+50h]
-		nop
 		cmp	al, 7
 		jz	short loc_FF512
 		cmp	al, 8
@@ -5124,7 +5108,7 @@ proc		int_6Fh near
 		iret
 endp		int_6Fh
 ; ---------------------------------------------------------------------------
-		db    204 dup (0)
+		db    224 dup (0)
 ;--------------------------------------------------------------------------------------------------
 ; Power-On Entry Point
 ;--------------------------------------------------------------------------------------------------
