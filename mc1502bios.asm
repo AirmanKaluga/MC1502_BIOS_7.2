@@ -295,7 +295,7 @@ loc_FE1EC:				; ...
 
 loc_FE1F0:				; ...
 		push	ax
-		mov	si, offset aFailedAt
+		mov	si, offset FailedAt
 		call	sub_FE24F
 		dec	di
 		dec	di
@@ -320,7 +320,7 @@ loc_FE1F0:				; ...
 					; Return: AH = scan code, AL = character
 		jmp	short loc_FE1AC
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE21E near		; ...
@@ -337,7 +337,7 @@ proc		sub_FE21E near		; ...
 endp		sub_FE21E ; sp-analysis	failed
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE238 near		; ...
@@ -351,7 +351,7 @@ proc		sub_FE238 near		; ...
 endp		sub_FE238
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE247 near		; ...
@@ -366,7 +366,7 @@ locret_FE24E:				; ...
 endp		sub_FE247
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE24F near		; ...
@@ -381,7 +381,7 @@ proc		sub_FE24F near		; ...
 endp		sub_FE24F
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE25B near		; ...
@@ -391,7 +391,7 @@ proc		sub_FE25B near		; ...
 endp		sub_FE25B ; sp-analysis	failed
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE262 near		; ...
@@ -402,7 +402,7 @@ proc		sub_FE262 near		; ...
 endp		sub_FE262 ; sp-analysis	failed
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE26B near		; ...
@@ -425,9 +425,9 @@ TestingSystem:
 		db 0Ah, 0Dh, 'Testing system memory ...'
 		db 0Ah, 0Dh, 'Complete 000 K', 0
 		
-aFailedAt	db 7, 0Ah, 0Dh, 'Failed at ', 0
+FailedAt	db 7, 0Ah, 0Dh, 'Failed at ', 0
 
-aSystemNotFound	db 7, 0Ah, 0Dh, 'System not found.', 0Ah, 0Dh, 0
+SystemNotFound	db 7, 0Ah, 0Dh, 'System not found.', 0Ah, 0Dh, 0
  
 unk_FE2CB:
 		db  48h	; H		; ...
@@ -441,7 +441,7 @@ unk_FE2CF:
 		db    8
 		db  0Ah
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE2D3 near		; ...
@@ -452,7 +452,7 @@ proc		sub_FE2D3 near		; ...
 endp		sub_FE2D3
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE2DD near		; ...
@@ -472,7 +472,7 @@ loc_FE2E8:				; ...
 endp		sub_FE2DD
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE2EF near		; ...
@@ -553,7 +553,7 @@ loc_FE36A:				; ...
 endp		sub_FE2EF
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE36C near		; ...
@@ -581,7 +581,7 @@ loc_FE380:				; ...
 endp		sub_FE36C
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE394 near		; ...
@@ -612,7 +612,7 @@ loc_FE3B7:				; ...
 endp		sub_FE394
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE3C3 near		; ...
@@ -690,7 +690,7 @@ loc_FE446:				; ...
 endp		sub_FE3C3
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE452 near		; ...
@@ -726,7 +726,7 @@ loc_FE475:				; ...
 endp		sub_FE452
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE483 near		; ...
@@ -743,7 +743,9 @@ loc_FE48C:				; ...
 		retn
 endp		sub_FE483
 
-; ---------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------
+; Interrupt 69h - Keyboard scan
+;---------------------------------------------------------------------------------------------------
 proc		int_69h near
 		sti
 		push	ax
@@ -820,7 +822,7 @@ loc_FE50F:				; ...
 		iret
 endp 		int_69h
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE51F near		; ...
@@ -855,7 +857,7 @@ loc_FE545:				; ...
 endp		sub_FE51F
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE54B near		; ...
@@ -887,7 +889,7 @@ loc_FE56C:				; ...
 endp		sub_FE54B
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE571 near		; ...
@@ -1004,7 +1006,7 @@ unk_FE5E4:
 		db  50h	; P
 		db  48h	; H
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FE5E8 near		; ...
@@ -1213,12 +1215,15 @@ loc_FE6AE:				; ...
 		db    0
 		db    0
 		db    0
-; ---------------------------------------------------------------------------
+		db    0
+		db    0
+;---------------------------------------------------------------------------------------------------
+; Interrupt 19h - Warm Boot
+;---------------------------------------------------------------------------------------------------
+proc		int_19h
 		xor	dx, dx
 		mov	es, dx
 		jmp	short loc_FE6AE
-; ---------------------------------------------------------------------------
-
 loc_FE6F8:				; ...
 		mov	dl, 80h
 
@@ -1252,10 +1257,7 @@ loc_FE714:				; ...
 ; ---------------------------------------------------------------------------
 
 loc_FE728:				; ...
-		int	18h		; TRANSFER TO ROM BASIC
-					; causes transfer to ROM-based BASIC (IBM-PC)
-					; often	reboots	a compatible; often has	no effect at all
-		mov	si, offset aSystemNotFound
+		mov	si, offset SystemNotFound
 		call	sub_FE24F
 		sti
 
@@ -1268,7 +1270,9 @@ loc_FE733:				; ...
 		jnz	short loc_FE714
 		;jmp	far ptr	0:7C00h
 		jmpfar 0,7C00h
+endp		int_19h
 ; ---------------------------------------------------------------------------
+                                
 data_28		dw	0470h ; Data table (indexed access)
 		db  41h	; A
 		db    3
@@ -1284,7 +1288,10 @@ data_28		dw	0470h ; Data table (indexed access)
 		db    0
 		db  0Dh
 		db    0
-; ---------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------
+; Interrupt 14h - RS232
+;---------------------------------------------------------------------------------------------------
+proc		int_14h
 		sti
 		push	bx
 		push	cx
@@ -1404,6 +1411,7 @@ loc_FE7F3:				; ...
 		pop	cx
 		pop	bx
 		iret
+endp		int_14h
 ; ---------------------------------------------------------------------------
 
 loc_FE7F7:				; ...
@@ -1459,7 +1467,10 @@ loc_FE81D:				; ...
 		db    0
 		db    0
 		db    0
-; ---------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------
+; Interrupt 16h - Keyboard
+;---------------------------------------------------------------------------------------------------
+proc		int_16h
 		sti
 		push	ds
 		push	bx
@@ -1476,6 +1487,7 @@ loc_FE81D:				; ...
 		pop	ds
 		assume ds:nothing
 		iret
+endp		int_16h
 ; ---------------------------------------------------------------------------
 
 loc_FE845:				; ...
@@ -1510,7 +1522,7 @@ loc_FE86F:				; ...
 		pop	ds
 		iret
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 proc		sub_FE875 near		; ...
 		add	bx, 2
@@ -1788,9 +1800,9 @@ unk_FE97A	db  47h	; G		; ...
 		push	dx
 		push	bx
 
-;----------------------------------------------------------------------------
-; Interrupt 09h
-;----------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------
+; Interrupt 09h - keyaboard IRQ1 
+;---------------------------------------------------------------------------------------------------
 proc		int_09h
 		sti
 		push	ax
@@ -2295,7 +2307,9 @@ loc_FEC38:				; ...
 		db    0
 		db    0
 		db    0
-; ---------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------
+; Interrupt 13h - Floppydisk
+;---------------------------------------------------------------------------------------------------
 proc		int_13h	near
 		cld
 		sti
@@ -2326,7 +2340,7 @@ proc		int_13h	near
 		retf	2
 endp		int_13h
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FEC85 near		; ...
@@ -2365,7 +2379,7 @@ locret_FECC1:				; ...
 endp		sub_FEC85
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FECC2 near		; ...
@@ -2569,7 +2583,7 @@ loc_FEDFD:				; ...
 endp		sub_FECC2
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FEE04 near		; ...
@@ -2706,7 +2720,7 @@ loc_FEECD:				; ...
 		retn
 ; END OF FUNCTION CHUNK	FOR sub_FECC2
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FEED3 near		; ...
@@ -2815,7 +2829,7 @@ unk_FEF46	db  24h	; $		; ...
 		mov	al, bl
 		jmp	loc_FE7F3
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FEF60 near		; ...
@@ -2926,9 +2940,10 @@ MotorOn         db      4
 
 endp    	int_1Eh
 
-; ---------------------------------------------------------------------------
-
-int_17h_printer:
+;---------------------------------------------------------------------------------------------------
+; Interrupt 17h - Parallel LPT Services
+;---------------------------------------------------------------------------------------------------
+proc		int_17h	near
 		push	dx
 		push	cx
 		push	bx
@@ -2944,6 +2959,7 @@ loc_FEFE1:				; ...
 		pop	cx
 		pop	dx
 		iret
+endp		int_17h
 ; ---------------------------------------------------------------------------
 
 loc_FEFE5:				; ...
@@ -3083,7 +3099,6 @@ off_FF045	dw offset loc_FF0FC
 		dw offset loc_FF4AF
 		dw offset loc_FF7B5
 		dw offset unk_FFCFB
-; ---------------------------------------------------------------------------
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 1Dh - Video Parameter Tables
 ;---------------------------------------------------------------------------------------------------
@@ -3117,7 +3132,7 @@ mul_lookup      db	00h, 00h, 10h, 10h, 20h, 20h, 20h, 30h	; Table lookup for mul
 endp	int_1Dh
 
 ;---------------------------------------------------------------------------------------------------
-; Interrupt 10h - Video Parameter Tables
+; Interrupt 10h - Video BIOS (Mono/CGA) Main Entry
 ;---------------------------------------------------------------------------------------------------
 proc		int_10h near
 		push	ax
@@ -4376,7 +4391,10 @@ loc_FF7B5:				; ...
 		db    0
 		db    0
 		db    0
-; ---------------------------------------------------------------------------
+;---------------------------------------------------------------------------------------------------
+; Interrupt 12h - Memory Size
+;---------------------------------------------------------------------------------------------------
+proc		int_12h near
 		sti
 		push	ds
 		mov	ax, 40h
@@ -4386,7 +4404,11 @@ loc_FF7B5:				; ...
 		pop	ds
 		assume ds:nothing
 		iret
-; ---------------------------------------------------------------------------
+endp		int_12h
+;---------------------------------------------------------------------------------------------------
+; Interrupt 11h - Equipment Check
+;---------------------------------------------------------------------------------------------------
+proc		int_11h near
 		sti
 		push	ds
 		mov	ax, 40h
@@ -4396,7 +4418,11 @@ loc_FF7B5:				; ...
 		pop	ds
 		assume ds:nothing
 		iret
-; ---------------------------------------------------------------------------
+endp		int_11h
+;---------------------------------------------------------------------------------------------------
+; Interrupt 15h - Cassette
+;---------------------------------------------------------------------------------------------------
+proc		int_15h near
 		push	ds
 		push	ax
 		mov	ax, 40h
@@ -4408,8 +4434,9 @@ loc_FF7B5:				; ...
 		assume ds:nothing
 		sti
 		retf	2
+endp		int_15h
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FF869 near		; ...
@@ -4485,7 +4512,7 @@ locret_FF8C6:				; ...
 endp		sub_FF869
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FF8C7 near		; ...
@@ -4569,7 +4596,7 @@ loc_FF914:				; ...
 endp		sub_FF8C7
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FF925 near		; ...
@@ -4614,7 +4641,7 @@ loc_FF95D:				; ...
 endp		sub_FF925
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FF961 near		; ...
@@ -4656,7 +4683,7 @@ loc_FF98B:				; ...
 endp		sub_FF961
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FF98F near		; ...
@@ -4686,7 +4713,7 @@ loc_FF996:				; ...
 endp		sub_FF98F
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FF9B7 near		; ...
@@ -4730,7 +4757,7 @@ loc_FF9CE:				; ...
 endp		sub_FF9B7
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FF9E0 near		; ...
@@ -4760,7 +4787,7 @@ loc_FF9F3:				; ...
 endp		sub_FF9E0
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FFA0A near		; ...
@@ -4783,7 +4810,7 @@ loc_FFA10:				; ...
 endp		sub_FFA0A
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FFA21 near		; ...
@@ -4815,7 +4842,7 @@ loc_FFA30:				; ...
 endp		sub_FFA21 ; sp-analysis	failed
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FFA37 near		; ...
@@ -4826,7 +4853,7 @@ proc		sub_FFA37 near		; ...
 endp		sub_FFA37
 
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 proc		sub_FFA3E near		; ...
@@ -5898,6 +5925,7 @@ unk_FFCFB	db  78h	; x		; ...
 		db 0FEh	; ?
 		db    0
 ; ---------------------------------------------------------------------------
+proc 		int_1Ah near
 		push	ds
 		push	ax
 		mov	ax, 40h
@@ -5913,6 +5941,7 @@ loc_FFE7E:				; ...
 		pop	ds
 		assume ds:nothing
 		iret
+endp		int_1Ah
 ; ---------------------------------------------------------------------------
 
 loc_FFE80:				; ...
@@ -5987,16 +6016,16 @@ int_vec_table_1:
 		dw offset dummy_int       ; Offset int_0Eh
 		dw offset dummy_int       ; Offset int_0Fh
 		dw offset int_10h         ; Offset int_10h
-		dw 0F84Dh	          ; Ofsset int_11h
-		dw 0F841h	          ; Offset int_12h
+		dw offset int_11h         ; Ofsset int_11h
+		dw offset int_12h         ; Offset int_12h
 		dw offset int_13h         ; Offset int_13h
-		dw 0E751h	          ; Offset int_14h
-		dw 0F859h	          ; Offset int_15h
-		dw 0E82Eh	          ; Offset int_16h
-		dw 0EFD2h	          ; Offset int_17h
+		dw offset int_14h         ; Offset int_14h
+		dw offset int_15h         ; Offset int_15h
+		dw offset int_16h         ; Offset int_16h
+		dw offset int_17h         ; Offset int_17h
 		dw offset dummy_int       ; Offset int_18h
-		dw 0E6F2h	          ; Offset int_19h
-		dw 0FE6Eh		  ; Offset int_1Ah
+		dw offset int_19h         ; Offset int_19h
+		dw offset int_1Ah	  ; Offset int_1Ah
 		dw offset dummy_int       ; Offset int_1Bh
 		dw offset dummy_int       ; Offset int_1Ch
 		dw offset int_1Dh	  ; Offset int_1Dh
@@ -6145,7 +6174,7 @@ loc_FFFC5:				; ...
 		assume ds:nothing
 		iret
 
-; =============== S U B	R O U T	I N E =======================================
+
 
 
 ;--------------------------------------------------------------------------------------------------
