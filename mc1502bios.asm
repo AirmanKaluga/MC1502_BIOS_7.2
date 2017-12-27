@@ -1778,10 +1778,15 @@ unk_FE97A	db  47h	; G		; ...
 		db 0FFh
 		db  4Fh	; O
 ; ---------------------------------------------------------------------------
-		push	ax
+		push	ax  ; TODO Unknown PUSH
 		push	cx
 		push	dx
 		push	bx
+
+;----------------------------------------------------------------------------
+; Interrupt 09h
+;----------------------------------------------------------------------------
+proc		int_09h
 		sti
 		push	ax
 		push	bx
@@ -1909,6 +1914,8 @@ loc_FEA50:				; ...
 		pop	bx
 		pop	ax
 		iret
+
+endp		int_09h
 ; ---------------------------------------------------------------------------
 
 loc_FEA59:				; ...
@@ -6029,7 +6036,7 @@ loc_FFEE7:				; ...
 		db    0
 int_vec_table_1:		
 		dw 0FEA5h	; Offest int_08h
-		dw 0E987h	; Offset int_09h
+		dw offset int_09h         ; Offset int_09h
 		dw offset dummy_int       ; Offset int_0Ah
 		dw offset dummy_int       ; Ofsset int_0Bh
 		dw offset dummy_int       ; Offset int_0Ch
