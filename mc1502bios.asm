@@ -469,12 +469,9 @@ proc		sub_FE2DD near		; ...
 		mov	[byte ptr ds:dsk_motor_tmr], 0FFh ; dsk_motor_tmr
 
 loc_FE2E8:				; ...
-		nop; in	al, dx
-		nop;shr	al, 1
-		nop;
-		
-		nop;
-		nop; jb	short loc_FE2E8
+		in	al, dx
+		shr	al, 1
+		jb	short loc_FE2E8
 		pop	ax
 		retn
 endp		sub_FE2DD
