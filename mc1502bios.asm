@@ -166,20 +166,19 @@ vec_table_2_loop:				; ...
 		mov	es, ax
 		assume es:nothing
 
-@@init_KAKAYTO_FIGNYA:
+@@init_BDA:
 		mov	cx, 10h
-		mov	si, offset unk_FFF31
+		mov	si, offset BDA
 		xor	di, di
 		rep movsw
+
 		in	al, 4Bh
 		not	al
 		out	4Bh, al
 		mov	ah, al
-		jmp	near ptr  loc_FE0FE
+		jmp	near ptr  loc_FE101
 ; ---------------------------------------------------------------------------
-
-loc_FE0FE:				; ...
-		jmp	near ptr   loc_FE101
+		db 3 dup (0)
 ; ---------------------------------------------------------------------------
 
 loc_FE101:				; ...
@@ -6054,40 +6053,27 @@ int_vec_table_2:
 		dw offset int_6Eh
 		dw offset int_6Fh
 
-unk_FFF31	db 0F8h	; ?		; ...
-		db    3
-		db 0F8h	; ?
-		db    2
-		db    0
-		db    0
-		db    0
-		db    0
-		db  78h	; x
-		db    3
-		db  78h	; x
-		db    2
-		db    0
-		db    0
-		db    0
-		db    0
-		db  6Dh	; m
-		db  62h	; b
-		db    0
-		db    0
-		db    0
-		db  40h	; @
-		db    0
-		db    0
-		db    0
-		db    0
-		db  1Eh
-		db    0
-		db  1Eh
-		db    0
-		db  1Eh
-		db    0
-		db    0
-		db    0
+BDA:
+
+rs232_1:	dw    3F8h	
+rs232_2:	dw    2F8h	
+rs232_3:	dw    0
+rs232_4:	dw    0
+lpt_1:		dw    378h	
+lpt_2:		dw    278h	
+lpt_3:		dw    0
+bios_data_seg:	dw    0
+equip_bit:	dw    626Dh	
+manufact_test:	db    0
+main_ram_size:	dw    0
+error_codes:	dw    40h
+kb_flag_1:	db    0
+kb_flag_2:	db    0
+kb_alt_num:	db    0
+kb_q_head:	dw  1Eh
+kb_q_tail:	dw  1Eh
+kb_queue:	dw  1Eh
+		db    2 dup(0)
 ; ---------------------------------------------------------------------------
 ;  Dummy interrupt
 ;----------------------------------------------------------------------------
