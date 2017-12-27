@@ -739,6 +739,7 @@ loc_FE48C:				; ...
 endp		sub_FE483
 
 ; ---------------------------------------------------------------------------
+proc		int_69 near
 		sti
 		push	ax
 		push	bx
@@ -812,6 +813,7 @@ loc_FE50F:				; ...
 		pop	bx
 		pop	ax
 		iret
+endp 		int_69
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -6239,28 +6241,42 @@ proc		sub_FFFCB near		; ...
 endp		sub_FFFCB
 
 ; ---------------------------------------------------------------------------
+; Second interrupt table& This table  create for scanning keyboard matrix usualy ine hardware interrupt
+;---------------------------------------------------------------------------
+proc		int_68 near
 		int	8		;  - IRQ0 - TIMER INTERRUPT
-					; Generated 18.2 times per second, this	interrupt is used to keep the
-					; time-of-day clock updated.
 		iret
+endp		int_68
 ; ---------------------------------------------------------------------------
+proc		int_6A near
 		int	0Ah		;  - IRQ2 - EGA	VERTICAL RETRACE
 		iret
+endp		int_6A
 ; ---------------------------------------------------------------------------
+proc		int_6B	near
 		int	0Bh		;  - IRQ3 - COM2 INTERRUPT
 		iret
+endp		int_6B
 ; ---------------------------------------------------------------------------
+proc		int_6C  near
 		int	0Ch		;  - IRQ4 - COM1 INTERRUPT
 		iret
+endp		int_6C
 ; ---------------------------------------------------------------------------
+proc		int_6D	near
 		int	0Dh		;  - IRQ5 - FIXED DISK (PC), LPT2 (AT/PS)
 		iret
+endp		int_6D
 ; ---------------------------------------------------------------------------
+proc		int_6E  near
 		int	0Eh		;  - IRQ6 - DISKETTE INTERRUPT
 		iret
+endp		int_6E
 ; ---------------------------------------------------------------------------
+proc		int_6F near
 		int	0Fh		;  - IRQ7 - PRINTER INTERRUPT
 		iret
+endp		int_6F
 ; ---------------------------------------------------------------------------
 		db    0
 ; ---------------------------------------------------------------------------
