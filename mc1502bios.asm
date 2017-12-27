@@ -678,7 +678,7 @@ loc_FE436:				; ...
 		sub	al, ah
 		not	al
 		shr	al, 1
-		cmp	al, [cs:byte_FEFD1]
+		cmp	al, [cs:MotorOn]
 		jb	short loc_FE436
 
 loc_FE446:				; ...
@@ -2310,7 +2310,7 @@ proc		int_13h	near
 		mov	ds, si
 		assume ds:nothing
 		call	sub_FEC85
-		mov	ah, [cs:byte_FEFC9]
+		mov	ah, [cs:MotorOff]
 		mov	[ds:dsk_motor_tmr], ah
 		mov	ah, [ds:dsk_ret_code]
 		cmp	ah, 1
@@ -2906,17 +2906,26 @@ unk_FEF97	db    0			; ...
 		db    0
 		db    0
 		db    0
-		db 0CFh	; ?
-		db    2
-byte_FEFC9	db 25h			; ...
-		db    2
-		db    9
-		db  2Ah	; *
-		db 0FFh
-		db  50h	; P
-		db 0F6h	; ?
-		db  19h
-byte_FEFD1	db 4			; ...
+
+;---------------------------------------------------------------------------------------------------
+; Interrupt 1Eh - Diskette Parameter Table
+;---------------------------------------------------------------------------------------------------
+proc    	int_1Eh  far
+
+SrtHdUnld       db      0CFh                       ; Disk parameter table
+DmaHdLd        	db      2
+MotorOff        db      25h
+SectSize        db      2
+LastTrack       db      9
+GapLen          db      2Ah
+DTL             db      0FFh
+GapFMT          db      50h
+FullChar        db      0F6h
+HDSettle        db      19h
+MotorOn         db      4
+
+endp    	int_1Eh
+
 ; ---------------------------------------------------------------------------
 
 int_17h_printer:
@@ -3075,6 +3084,7 @@ off_FF045	dw offset loc_FF0FC
 		dw offset loc_FF7B5
 		dw offset unk_FFCFB
 ; ---------------------------------------------------------------------------
+proc		int_10h near
 		push	ax
 		push	bx
 		push	cx
@@ -3326,6 +3336,7 @@ loc_FF198:				; ...
 		pop	bx
 		pop	ax
 		iret
+endp		int_10h
 ; ---------------------------------------------------------------------------
 
 loc_FF1A2:				; ...
@@ -6052,7 +6063,7 @@ int_vec_table_1:
 		dw offset dummy_int       ; Offset int_0Dh
 		dw offset dummy_int       ; Offset int_0Eh
 		dw offset dummy_int       ; Offset int_0Fh
-		dw 0F065h	          ; Offset int_10h
+		dw offset int_10h         ; Offset int_10h
 		dw 0F84Dh	          ; Ofsset int_11h
 		dw 0F841h	          ; Offset int_12h
 		dw offset int_13h         ; Offset int_13h
@@ -6066,7 +6077,7 @@ int_vec_table_1:
 		dw offset dummy_int       ; Offset int_1Bh
 		dw offset dummy_int       ; Offset int_1Ch
 		dw 0F0A4h		  ; Offset int_1Dh
-		dw 0EFC7h	          ; Offset int_1Eh
+		dw offset int_1Eh         ; Offset int_1Eh
 int_vec_table_2:
 		dw offset int_68h
 		dw offset int_69h
