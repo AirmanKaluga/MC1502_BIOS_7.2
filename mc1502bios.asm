@@ -61,10 +61,11 @@ loc_0E047h:
 		db    0
 		
 ; ---------------------------------------------------------------------------
-
+proc		post	near
 warm_boot:				; ...
 		cli
 		cld
+@@init_PPI:
 		mov	al, 88h
 		out	63h, al		; PC/XT	PPI Command/Mode Register.
 					; Selects which	PPI ports are input or output.
@@ -77,6 +78,7 @@ warm_boot:				; ...
 					; 5: 1=Timer 2 channel out
 					; 6: 1=I/O channel check
 					; 7: 1=RAM parity check	error occurred.
+
 		mov	al, 0E0h
 		out	61h, al		; PC/XT	PPI port B bits:
 					; 0: Tmr 2 gate	??? OR	03H=spkr ON
@@ -86,12 +88,14 @@ warm_boot:				; ...
 					; 5: 0=enable I/O channel check
 					; 6: 0=hold keyboard clock low
 					; 7: 0=enable kbrd
+@@init_PIC:				;Basic offset 68h for keyboard scenner procedure
 		mov	al, 13h
 		out	20h, al		; Interrupt controller,	8259A.
 		mov	al, 68h
 		out	21h, al		; Interrupt controller,	8259A.
 		mov	al, 9
 		out	21h, al		; Interrupt controller,	8259A.
+@@init_PIT:
 		mov	al, 36h
 		out	43h, al		; Timer	8253-5 (AT: 8254.2).
 		mov	al, 0
@@ -120,39 +124,49 @@ warm_boot:				; ...
 		push	cs
 		pop	ds
 		assume ds:nothing
+
+@@init_vec_table_1:
 		mov	cx, 17h
 		mov	si, offset int_vec_table_1
 		mov	di, 20h
 
-loc_FE0B9:				; ...
+vec_table_1_loop:				; ...
 		lodsw
 		stosw
 		mov	ax, cs
 		stosw
-		loop	loc_FE0B9
+		loop	vec_table_1_loop
+
+@@init_vect_table_2:
 		mov	cx, 8
 		mov	si, offset int_vec_table_2
 		mov	di, 1A0h
 
-loc_FE0C9:				; ...
+vec_table_2_loop:				; ...
 		lodsw
 		stosw
 		mov	ax, cs
 		stosw
-		loop	loc_FE0C9
+		loop	vec_table_2_loop
+
+@@init_dummy_int:
 		mov	di, 8
 		mov	ax, offset dummy_int
 		stosw
 		mov	ax, cs
 		stosw
+
+@@init_print_screen_int:
 		mov	di, 14h
-		mov	ax, offset loc_FFF54
+		mov	ax, offset int_05h
 		stosw
 		mov	ax, cs
 		stosw
 		mov	ax, 40h
 		mov	es, ax
 		assume es:nothing
+
+@@init_KAKAYTO_FIGNYA:
 		mov	cx, 10h
 		mov	si, offset unk_FFF31
 		xor	di, di
@@ -319,7 +333,7 @@ loc_FE1F0:				; ...
 		int	16h		; KEYBOARD - READ CHAR FROM BUFFER, WAIT IF EMPTY
 					; Return: AH = scan code, AL = character
 		jmp	short loc_FE1AC
-
+endp		post
 
 
 
@@ -6081,9 +6095,10 @@ proc		dummy_int near
 		iret
 endp		dummy_int
 
-; ---------------------------------------------------------------------------
-
-loc_FFF54:				; ...
+;---------------------------------------------------------------------------------------------------
+; Interrupt 5h - Print Screen
+;---------------------------------------------------------------------------------------------------
+proc		int_05h	far				; Print screen service		
 		sti
 		push	ds
 		push	ax
@@ -6155,7 +6170,6 @@ loc_FFF8D:				; ...
 					; BH = page number
 		mov	[byte ptr ds:0], 0
 		jmp	short loc_FFFC5
-; ---------------------------------------------------------------------------
 
 loc_FFFBB:				; ...
 		pop	dx
@@ -6173,7 +6187,7 @@ loc_FFFC5:				; ...
 		pop	ds
 		assume ds:nothing
 		iret
-
+endp		int_05h
 
 
 
