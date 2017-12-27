@@ -126,7 +126,7 @@ loc_FE0B9:				; ...
 		stosw
 		loop	loc_FE0B9
 		mov	cx, 8
-		mov	si, offset unk_FFF21
+		mov	si, offset int_vec_table_2
 		mov	di, 1A0h
 
 loc_FE0C9:				; ...
@@ -136,7 +136,7 @@ loc_FE0C9:				; ...
 		stosw
 		loop	loc_FE0C9
 		mov	di, 8
-		mov	ax, offset locret_FFF53
+		mov	ax, offset dummy_int
 		stosw
 		mov	ax, cs
 		stosw
@@ -739,7 +739,7 @@ loc_FE48C:				; ...
 endp		sub_FE483
 
 ; ---------------------------------------------------------------------------
-proc		int_69 near
+proc		int_69h near
 		sti
 		push	ax
 		push	bx
@@ -813,7 +813,7 @@ loc_FE50F:				; ...
 		pop	bx
 		pop	ax
 		iret
-endp 		int_69
+endp 		int_69h
 
 ; =============== S U B	R O U T	I N E =======================================
 
@@ -6028,69 +6028,39 @@ loc_FFEE7:				; ...
 		db    0
 		db    0
 int_vec_table_1:		
-		db 0A5h	; ?
-		db 0FEh	; ?
-		db  87h	; ‡
-		db 0E9h	; ?
-		db  53h	; S
-		db 0FFh
-		db  53h	; S
-		db 0FFh
-		db  53h	; S
-		db 0FFh
-		db  53h	; S
-		db 0FFh
-		db  53h	; S
-		db 0FFh
-		db  53h	; S
-		db 0FFh
-		db  65h	; e
-		db 0F0h	; ?
-		db  4Dh	; M
-		db 0F8h	; ?
-		db  41h	; A
-		db 0F8h	; ?
-		db  59h	; Y
-		db 0ECh	; ?
-		db  51h	; Q
-		db 0E7h	; ?
-		db  59h	; Y
-		db 0F8h	; ?
-		db  2Eh	; .
-		db 0E8h	; ?
-		db 0D2h	; ?
-		db 0EFh	; ?
-		db  53h	; S
-		db 0FFh
-		db 0F2h	; ?
-		db 0E6h	; ?
-		db  6Eh	; n
-		db 0FEh	; ?
-		db  53h	; S
-		db 0FFh
-		db  53h	; S
-		db 0FFh
-		db 0A4h	; ?
-		db 0F0h	; ?
-		db 0C7h	; ?
-		db 0EFh	; ?
-unk_FFF21:
-		db 0DAh	; ?		; ...
-		db 0FFh
-		db  8Eh	; ?
-		db 0E4h	; ?
-		db 0DDh	; ?
-		db 0FFh
-		db 0E0h	; ?
-		db 0FFh
-		db 0E3h	; ?
-		db 0FFh
-		db 0E6h	; ?
-		db 0FFh
-		db 0E9h	; ?
-		db 0FFh
-		db 0ECh	; ?
-		db 0FFh
+		dw 0FEA5h	; Offest int_08h
+		dw 0E987h	; Offset int_09h
+		dw offset dummy_int       ; Offset int_0Ah
+		dw offset dummy_int       ; Ofsset int_0Bh
+		dw offset dummy_int       ; Offset int_0Ch
+		dw offset dummy_int       ; Offset int_0Dh
+		dw offset dummy_int       ; Offset int_0Eh
+		dw offset dummy_int       ; Offset int_0Fh
+		dw 0F065h	          ; Offset int_10h
+		dw 0F84Dh	          ; Ofsset int_11h
+		dw 0F841h	          ; Offset int_12h
+		dw 0EC59h	          ; Offset int_13h
+		dw 0E751h	          ; Offset int_14h
+		dw 0F859h	          ; Offset int_15h
+		dw 0E82Eh	          ; Offset int_16h
+		dw 0EFD2h	          ; Offset int_17h
+		dw offset dummy_int       ; Offset int_18h
+		dw 0E6F2h	          ; Offset int_19h
+		dw 0FE6Eh		  ; Offset int_1Ah
+		dw offset dummy_int       ; Offset int_1Bh
+		dw offset dummy_int       ; Offset int_1Ch
+		dw 0F0A4h		  ; Offset int_1Dh
+		dw 0EFC7h	          ; Offset int_1Eh
+int_vec_table_2:
+		dw offset int_68h
+		dw offset int_69h
+		dw offset int_6Ah
+		dw offset int_6Bh
+		dw offset int_6Ch
+		dw offset int_6Dh
+		dw offset int_6Eh
+		dw offset int_6Fh
+
 unk_FFF31	db 0F8h	; ?		; ...
 		db    3
 		db 0F8h	; ?
@@ -6126,9 +6096,12 @@ unk_FFF31	db 0F8h	; ?		; ...
 		db    0
 		db    0
 ; ---------------------------------------------------------------------------
-
-locret_FFF53:				; ...
+;  Dummy interrupt
+;----------------------------------------------------------------------------
+proc		dummy_int near
 		iret
+endp		dummy_int
+
 ; ---------------------------------------------------------------------------
 
 loc_FFF54:				; ...
@@ -6243,40 +6216,40 @@ endp		sub_FFFCB
 ; ---------------------------------------------------------------------------
 ; Second interrupt table& This table  create for scanning keyboard matrix usualy ine hardware interrupt
 ;---------------------------------------------------------------------------
-proc		int_68 near
+proc		int_68h near
 		int	8		;  - IRQ0 - TIMER INTERRUPT
 		iret
-endp		int_68
+endp		int_68h
 ; ---------------------------------------------------------------------------
-proc		int_6A near
+proc		int_6Ah near
 		int	0Ah		;  - IRQ2 - EGA	VERTICAL RETRACE
 		iret
-endp		int_6A
+endp		int_6Ah
 ; ---------------------------------------------------------------------------
-proc		int_6B	near
+proc		int_6Bh	near
 		int	0Bh		;  - IRQ3 - COM2 INTERRUPT
 		iret
-endp		int_6B
+endp		int_6Bh
 ; ---------------------------------------------------------------------------
-proc		int_6C  near
+proc		int_6Ch  near
 		int	0Ch		;  - IRQ4 - COM1 INTERRUPT
 		iret
-endp		int_6C
+endp		int_6Ch
 ; ---------------------------------------------------------------------------
-proc		int_6D	near
+proc		int_6Dh	near
 		int	0Dh		;  - IRQ5 - FIXED DISK (PC), LPT2 (AT/PS)
 		iret
-endp		int_6D
+endp		int_6Dh
 ; ---------------------------------------------------------------------------
-proc		int_6E  near
+proc		int_6Eh  near
 		int	0Eh		;  - IRQ6 - DISKETTE INTERRUPT
 		iret
-endp		int_6E
+endp		int_6Eh
 ; ---------------------------------------------------------------------------
-proc		int_6F near
+proc		int_6Fh near
 		int	0Fh		;  - IRQ7 - PRINTER INTERRUPT
 		iret
-endp		int_6F
+endp		int_6Fh
 ; ---------------------------------------------------------------------------
 		db    0
 ; ---------------------------------------------------------------------------
