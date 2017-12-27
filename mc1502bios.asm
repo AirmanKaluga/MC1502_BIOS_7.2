@@ -41,25 +41,8 @@ str_banner	db  0Ah
 loc_0E047h:
 		db 0Ah
 		db 0Dh
-		db	  0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		
+		db  18 dup  (0)
+	
 ; ---------------------------------------------------------------------------
 proc		post	near
 warm_boot:				; ...
@@ -2290,28 +2273,6 @@ loc_FEC38:				; ...
 		pop	bx
 		pop	ax
 		retn
-; ---------------------------------------------------------------------------
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 13h - Floppydisk
 ;---------------------------------------------------------------------------------------------------
@@ -3078,15 +3039,6 @@ loc_FF032:				; ...
 					; 7: 0=enable kbrd
 		jmp	short loc_FF00E
 ; ---------------------------------------------------------------------------
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
 off_FF045	dw offset loc_FF0FC
 		dw offset loc_FF1A2
 		dw offset loc_FF1B5
@@ -3103,7 +3055,6 @@ off_FF045	dw offset loc_FF0FC
 		dw offset loc_FF463
 		dw offset loc_FF4AF
 		dw offset loc_FF7B5
-		dw offset unk_FFCFB
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 1Dh - Video Parameter Tables
 ;---------------------------------------------------------------------------------------------------
@@ -3133,7 +3084,6 @@ regen_len	dw	0800h			; Regen length, 40x25
 max_cols	db	28h, 28h, 50h, 50h, 28h, 28h, 50h, 50h	; Maximum columns
 video_hdwr_mode db	2Ch, 28h, 2Dh, 29h, 2Ah, 2Eh, 1Eh, 29h	; Table of mode sets
 mul_lookup      db	00h, 00h, 10h, 10h, 20h, 20h, 20h, 30h	; Table lookup for multiply
-		db 13 dup (0)
 endp	int_1Dh
 
 ;---------------------------------------------------------------------------------------------------
@@ -3756,6 +3706,7 @@ loc_FF49C:				; ...
 		iret
 ; ---------------------------------------------------------------------------
 
+
 loc_FF4AF:				; ...
 		mov	bh, [ds:62h]
 		xor	cx, cx
@@ -4098,7 +4049,7 @@ loc_FF6B6:				; ...
 		mov	ax, ss
 		mov	ds, ax
 		mov	al, [bp+0]
-		mov	di, offset unk_FFA6E
+		mov	di, offset gfx_chars
 		xor	bx, bx
 
 loc_FF6C8:				; ...
@@ -4273,129 +4224,6 @@ loc_FF7B5:				; ...
 		pop	cx
 		add	sp, 4
 		iret
-; ---------------------------------------------------------------------------
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 12h - Memory Size
 ;---------------------------------------------------------------------------------------------------
@@ -4877,1058 +4705,137 @@ loc_FFA4C:				; ...
 endp		sub_FFA3E
 
 ; ---------------------------------------------------------------------------
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-unk_FFA6E	db    0			; ...
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  7Eh	; ~
-		db  81h	; ?
-		db 0A5h	; ?
-		db  81h	; ?
-		db 0BDh	; ?
-		db  99h	; ™
-		db  81h	; ?
-		db  7Eh	; ~
-		db  7Eh	; ~
-		db 0FFh
-		db 0DBh	; ?
-		db 0FFh
-		db 0C3h	; ?
-		db 0E7h	; ?
-		db 0FFh
-		db  7Eh	; ~
-		db  6Ch	; l
-		db 0FEh	; ?
-		db 0FEh	; ?
-		db 0FEh	; ?
-		db  7Ch	; |
-		db  38h	; 8
-		db  10h
-		db    0
-		db  10h
-		db  38h	; 8
-		db  7Ch	; |
-		db 0FEh	; ?
-		db  7Ch	; |
-		db  38h	; 8
-		db  10h
-		db    0
-		db  38h	; 8
-		db  7Ch	; |
-		db  38h	; 8
-		db 0FEh	; ?
-		db 0FEh	; ?
-		db  7Ch	; |
-		db  38h	; 8
-		db  7Ch	; |
-		db  10h
-		db  10h
-		db  38h	; 8
-		db  7Ch	; |
-		db 0FEh	; ?
-		db  7Ch	; |
-		db  38h	; 8
-		db  7Ch	; |
-		db    0
-		db    0
-		db  18h
-		db  3Ch	; <
-		db  3Ch	; <
-		db  18h
-		db    0
-		db    0
-		db 0FFh
-		db 0FFh
-		db 0E7h	; ?
-		db 0C3h	; ?
-		db 0C3h	; ?
-		db 0E7h	; ?
-		db 0FFh
-		db 0FFh
-		db    0
-		db  3Ch	; <
-		db  66h	; f
-		db  42h	; B
-		db  42h	; B
-		db  66h	; f
-		db  3Ch	; <
-		db    0
-		db 0FFh
-		db 0C3h	; ?
-		db  99h	; ™
-		db 0BDh	; ?
-		db 0BDh	; ?
-		db  99h	; ™
-		db 0C3h	; ?
-		db 0FFh
-		db  0Fh
-		db    7
-		db  0Fh
-		db  7Dh	; }
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db  3Ch	; <
-		db  66h	; f
-		db  66h	; f
-		db  66h	; f
-		db  3Ch	; <
-		db  18h
-		db  7Eh	; ~
-		db  18h
-		db  3Fh	; ?
-		db  33h	; 3
-		db  3Fh	; ?
-		db  30h	; 0
-		db  30h	; 0
-		db  70h	; p
-		db 0F0h	; ?
-		db 0E0h	; ?
-		db  7Fh	; 
-		db  63h	; c
-		db  7Fh	; 
-		db  63h	; c
-		db  63h	; c
-		db  67h	; g
-		db 0E6h	; ?
-		db 0C0h	; ?
-		db  99h	; ™
-		db  5Ah	; Z
-		db  3Ch	; <
-		db 0E7h	; ?
-		db 0E7h	; ?
-		db  3Ch	; <
-		db  5Ah	; Z
-		db  99h	; ™
-		db  80h	; ˆ
-		db 0E0h	; ?
-		db 0F8h	; ?
-		db 0FEh	; ?
-		db 0F8h	; ?
-		db 0E0h	; ?
-		db  80h	; ˆ
-		db    0
-		db    2
-		db  0Eh
-		db  3Eh	; >
-		db 0FEh	; ?
-		db  3Eh	; >
-		db  0Eh
-		db    2
-		db    0
-		db  18h
-		db  3Ch	; <
-		db  7Eh	; ~
-		db  18h
-		db  18h
-		db  7Eh	; ~
-		db  3Ch	; <
-		db  18h
-		db  66h	; f
-		db  66h	; f
-		db  66h	; f
-		db  66h	; f
-		db  66h	; f
-		db    0
-		db  66h	; f
-		db    0
-		db  7Fh	; 
-		db 0DBh	; ?
-		db 0DBh	; ?
-		db  7Bh	; {
-		db  1Bh
-		db  1Bh
-		db  1Bh
-		db    0
-		db  3Eh	; >
-		db  63h	; c
-		db  38h	; 8
-		db  6Ch	; l
-		db  6Ch	; l
-		db  38h	; 8
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db    0
-		db    0
-		db    0
-		db  7Eh	; ~
-		db  7Eh	; ~
-		db  7Eh	; ~
-		db    0
-		db  18h
-		db  3Ch	; <
-		db  7Eh	; ~
-		db  18h
-		db  7Eh	; ~
-		db  3Ch	; <
-		db  18h
-		db 0FFh
-		db  18h
-		db  3Ch	; <
-		db  7Eh	; ~
-		db  18h
-		db  18h
-		db  18h
-		db  18h
-		db    0
-		db  18h
-		db  18h
-		db  18h
-		db  18h
-		db  7Eh	; ~
-		db  3Ch	; <
-		db  18h
-		db    0
-		db    0
-		db  18h
-		db  0Ch
-		db 0FEh	; ?
-		db  0Ch
-		db  18h
-		db    0
-		db    0
-		db    0
-		db  30h	; 0
-		db  60h	; `
-		db 0FEh	; ?
-		db  60h	; `
-		db  30h	; 0
-		db    0
-		db    0
-		db    0
-		db    0
-		db 0C0h	; ?
-		db 0C0h	; ?
-		db 0C0h	; ?
-		db 0FEh	; ?
-		db    0
-		db    0
-		db    0
-		db  24h	; $
-		db  66h	; f
-		db 0FFh
-		db  66h	; f
-		db  24h	; $
-		db    0
-		db    0
-		db    0
-		db  18h
-		db  3Ch	; <
-		db  7Eh	; ~
-		db 0FFh
-		db 0FFh
-		db    0
-		db    0
-		db    0
-		db 0FFh
-		db 0FFh
-		db  7Eh	; ~
-		db  3Ch	; <
-		db  18h
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  30h	; 0
-		db  78h	; x
-		db  78h	; x
-		db  30h	; 0
-		db  30h	; 0
-		db    0
-		db  30h	; 0
-		db    0
-		db  6Ch	; l
-		db  6Ch	; l
-		db  6Ch	; l
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  6Ch	; l
-		db  6Ch	; l
-		db 0FEh	; ?
-		db  6Ch	; l
-		db 0FEh	; ?
-		db  6Ch	; l
-		db  6Ch	; l
-		db    0
-		db  30h	; 0
-		db  7Ch	; |
-		db 0C0h	; ?
-		db  78h	; x
-		db  0Ch
-		db 0F8h	; ?
-		db  30h	; 0
-		db    0
-		db    0
-		db 0C6h	; ?
-		db 0CCh	; ?
-		db  18h
-		db  30h	; 0
-		db  66h	; f
-		db 0C6h	; ?
-		db    0
-		db  38h	; 8
-		db  6Ch	; l
-		db  38h	; 8
-		db  76h	; v
-		db 0DCh	; ?
-		db 0CCh	; ?
-		db  76h	; v
-		db    0
-		db  60h	; `
-		db  60h	; `
-		db 0C0h	; ?
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  18h
-		db  30h	; 0
-		db  60h	; `
-		db  60h	; `
-		db  60h	; `
-		db  30h	; 0
-		db  18h
-		db    0
-		db  60h	; `
-		db  30h	; 0
-		db  18h
-		db  18h
-		db  18h
-		db  30h	; 0
-		db  60h	; `
-		db    0
-		db    0
-		db  66h	; f
-		db  3Ch	; <
-		db 0FFh
-		db  3Ch	; <
-		db  66h	; f
-		db    0
-		db    0
-		db    0
-		db  30h	; 0
-		db  30h	; 0
-		db 0FCh	; ?
-		db  30h	; 0
-		db  30h	; 0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  30h	; 0
-		db  30h	; 0
-		db  60h	; `
-		db    0
-		db    0
-		db    0
-		db 0FCh	; ?
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  30h	; 0
-		db  30h	; 0
-		db    0
-		db    6
-		db  0Ch
-		db  18h
-		db  30h	; 0
-		db  60h	; `
-		db 0C0h	; ?
-		db  80h	; ˆ
-		db    0
-		db  7Ch	; |
-		db 0C6h	; ?
-		db 0CEh	; ?
-		db 0DEh	; ?
-		db 0F6h	; ?
-		db 0E6h	; ?
-		db  7Ch	; |
-		db    0
-		db  30h	; 0
-		db  70h	; p
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db 0FCh	; ?
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db  0Ch
-		db  38h	; 8
-		db  60h	; `
-		db 0CCh	; ?
-		db 0FCh	; ?
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db  0Ch
-		db  38h	; 8
-		db  0Ch
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db  1Ch
-		db  3Ch	; <
-		db  6Ch	; l
-		db 0CCh	; ?
-		db 0FEh	; ?
-		db  0Ch
-		db  1Eh
-		db    0
-		db 0FCh	; ?
-		db 0C0h	; ?
-		db 0F8h	; ?
-		db  0Ch
-		db  0Ch
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db  38h	; 8
-		db  60h	; `
-		db 0C0h	; ?
-		db 0F8h	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db 0FCh	; ?
-		db 0CCh	; ?
-		db  0Ch
-		db  18h
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  7Ch	; |
-		db  0Ch
-		db  18h
-		db  70h	; p
-		db    0
-		db    0
-		db  30h	; 0
-		db  30h	; 0
-		db    0
-		db    0
-		db  30h	; 0
-		db  30h	; 0
-		db    0
-		db    0
-		db  30h	; 0
-		db  30h	; 0
-		db    0
-		db    0
-		db  30h	; 0
-		db  30h	; 0
-		db  60h	; `
-		db  18h
-		db  30h	; 0
-		db  60h	; `
-		db 0C0h	; ?
-		db  60h	; `
-		db  30h	; 0
-		db  18h
-		db    0
-		db    0
-		db    0
-		db 0FCh	; ?
-		db    0
-		db    0
-		db 0FCh	; ?
-		db    0
-		db    0
-		db  60h	; `
-		db  30h	; 0
-		db  18h
-		db  0Ch
-		db  18h
-		db  30h	; 0
-		db  60h	; `
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db  0Ch
-		db  18h
-		db  30h	; 0
-		db    0
-		db  30h	; 0
-		db    0
-		db  7Ch	; |
-		db 0C6h	; ?
-		db 0DEh	; ?
-		db 0DEh	; ?
-		db 0DEh	; ?
-		db 0C0h	; ?
-		db  78h	; x
-		db    0
-		db  30h	; 0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0FCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db    0
-		db 0FCh	; ?
-		db  66h	; f
-		db  66h	; f
-		db  7Ch	; |
-		db  66h	; f
-		db  66h	; f
-		db 0FCh	; ?
-		db    0
-		db  3Ch	; <
-		db  66h	; f
-		db 0C0h	; ?
-		db 0C0h	; ?
-		db 0C0h	; ?
-		db  66h	; f
-		db  3Ch	; <
-		db    0
-		db 0F8h	; ?
-		db  6Ch	; l
-		db  66h	; f
-		db  66h	; f
-		db  66h	; f
-		db  6Ch	; l
-		db 0F8h	; ?
-		db    0
-		db 0FEh	; ?
-		db  62h	; b
-		db  68h	; h
-		db  78h	; x
-		db  68h	; h
-		db  62h	; b
-		db 0FEh	; ?
-		db    0
-		db 0FEh	; ?
-		db  62h	; b
-		db  68h	; h
-		db  78h	; x
-		db  68h	; h
-		db  60h	; `
-		db 0F0h	; ?
-		db    0
-		db  3Ch	; <
-		db  66h	; f
-		db 0C0h	; ?
-		db 0C0h	; ?
-		db 0CEh	; ?
-		db  66h	; f
-		db  3Eh	; >
-		db    0
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0FCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db    0
-		db  78h	; x
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  78h	; x
-		db    0
-		db  1Eh
-		db  0Ch
-		db  0Ch
-		db  0Ch
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db 0E6h	; ?
-		db  66h	; f
-		db  6Ch	; l
-		db  78h	; x
-		db  6Ch	; l
-		db  66h	; f
-		db 0E6h	; ?
-		db    0
-		db 0F0h	; ?
-		db  60h	; `
-		db  60h	; `
-		db  60h	; `
-		db  62h	; b
-		db  66h	; f
-		db 0FEh	; ?
-		db    0
-		db 0C6h	; ?
-		db 0EEh	; ?
-		db 0FEh	; ?
-		db 0FEh	; ?
-		db 0D6h	; ?
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db    0
-		db 0C6h	; ?
-		db 0E6h	; ?
-		db 0F6h	; ?
-		db 0DEh	; ?
-		db 0CEh	; ?
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db    0
-		db  38h	; 8
-		db  6Ch	; l
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db  6Ch	; l
-		db  38h	; 8
-		db    0
-		db 0FCh	; ?
-		db  66h	; f
-		db  66h	; f
-		db  7Ch	; |
-		db  60h	; `
-		db  60h	; `
-		db 0F0h	; ?
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0DCh	; ?
-unk_FFCFB	db  78h	; x		; ...
-		db  1Ch
-		db    0
-		db 0FCh	; ?
-		db  66h	; f
-		db  66h	; f
-		db  7Ch	; |
-		db  6Ch	; l
-		db  66h	; f
-		db 0E6h	; ?
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0E0h	; ?
-		db  70h	; p
-		db  1Ch
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db 0FCh	; ?
-		db 0B4h	; ?
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  78h	; x
-		db    0
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0FCh	; ?
-		db    0
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db  30h	; 0
-		db    0
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db 0D6h	; ?
-		db 0FEh	; ?
-		db 0EEh	; ?
-		db 0C6h	; ?
-		db    0
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db  6Ch	; l
-		db  38h	; 8
-		db  38h	; 8
-		db  6Ch	; l
-		db 0C6h	; ?
-		db    0
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db  30h	; 0
-		db  30h	; 0
-		db  78h	; x
-		db    0
-		db 0FEh	; ?
-		db 0C6h	; ?
-		db  8Ch	; ?
-		db  18h
-		db  32h	; 2
-		db  66h	; f
-		db 0FEh	; ?
-		db    0
-		db  78h	; x
-		db  60h	; `
-		db  60h	; `
-		db  60h	; `
-		db  60h	; `
-		db  60h	; `
-		db  78h	; x
-		db    0
-		db 0C0h	; ?
-		db  60h	; `
-		db  30h	; 0
-		db  18h
-		db  0Ch
-		db    6
-		db    2
-		db    0
-		db  78h	; x
-		db  18h
-		db  18h
-		db  18h
-		db  18h
-		db  18h
-		db  78h	; x
-		db    0
-		db  10h
-		db  38h	; 8
-		db  6Ch	; l
-		db 0C6h	; ?
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db 0FFh
-		db  30h	; 0
-		db  30h	; 0
-		db  18h
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  78h	; x
-		db  0Ch
-		db  7Ch	; |
-		db 0CCh	; ?
-		db  76h	; v
-		db    0
-		db 0E0h	; ?
-		db  60h	; `
-		db  60h	; `
-		db  7Ch	; |
-		db  66h	; f
-		db  66h	; f
-		db 0DCh	; ?
-		db    0
-		db    0
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0C0h	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db  1Ch
-		db  0Ch
-		db  0Ch
-		db  7Ch	; |
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  76h	; v
-		db    0
-		db    0
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0FCh	; ?
-		db 0C0h	; ?
-		db  78h	; x
-		db    0
-		db  38h	; 8
-		db  6Ch	; l
-		db  60h	; `
-		db 0F0h	; ?
-		db  60h	; `
-		db  60h	; `
-		db 0F0h	; ?
-		db    0
-		db    0
-		db    0
-		db  76h	; v
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  7Ch	; |
-		db  0Ch
-		db 0F8h	; ?
-		db 0E0h	; ?
-		db  60h	; `
-		db  6Ch	; l
-		db  76h	; v
-		db  66h	; f
-		db  66h	; f
-		db 0E6h	; ?
-		db    0
-		db  30h	; 0
-		db    0
-		db  70h	; p
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  78h	; x
-		db    0
-		db  0Ch
-		db    0
-		db  0Ch
-		db  0Ch
-		db  0Ch
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db 0E0h	; ?
-		db  60h	; `
-		db  66h	; f
-		db  6Ch	; l
-		db  78h	; x
-		db  6Ch	; l
-		db 0E6h	; ?
-		db    0
-		db  70h	; p
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  30h	; 0
-		db  78h	; x
-		db    0
-		db    0
-		db    0
-		db 0CCh	; ?
-		db 0FEh	; ?
-		db 0FEh	; ?
-		db 0D6h	; ?
-		db 0C6h	; ?
-		db    0
-		db    0
-		db    0
-		db 0F8h	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db    0
-		db    0
-		db    0
-		db  78h	; x
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db    0
-		db    0
-		db    0
-		db 0DCh	; ?
-		db  66h	; f
-		db  66h	; f
-		db  7Ch	; |
-		db  60h	; `
-		db 0F0h	; ?
-		db    0
-		db    0
-		db  76h	; v
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  7Ch	; |
-		db  0Ch
-		db  1Eh
-		db    0
-		db    0
-		db 0DCh	; ?
-		db  76h	; v
-		db  66h	; f
-		db  60h	; `
-		db 0F0h	; ?
-		db    0
-		db    0
-		db    0
-		db  7Ch	; |
-		db 0C0h	; ?
-		db  78h	; x
-		db  0Ch
-		db 0F8h	; ?
-		db    0
-		db  10h
-		db  30h	; 0
-		db  7Ch	; |
-		db  30h	; 0
-		db  30h	; 0
-		db  34h	; 4
-		db  18h
-		db    0
-		db    0
-		db    0
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  76h	; v
-		db    0
-		db    0
-		db    0
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  78h	; x
-		db  30h	; 0
-		db    0
-		db    0
-		db    0
-		db 0C6h	; ?
-		db 0D6h	; ?
-		db 0FEh	; ?
-		db 0FEh	; ?
-		db  6Ch	; l
-		db    0
-		db    0
-		db    0
-		db 0C6h	; ?
-		db  6Ch	; l
-		db  38h	; 8
-		db  6Ch	; l
-		db 0C6h	; ?
-		db    0
-		db    0
-		db    0
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db 0CCh	; ?
-		db  7Ch	; |
-		db  0Ch
-		db 0F8h	; ?
-		db    0
-		db    0
-		db 0FCh	; ?
-		db  98h	; ?
-		db  30h	; 0
-		db  64h	; d
-		db 0FCh	; ?
-		db    0
-		db  1Ch
-		db  30h	; 0
-		db  30h	; 0
-		db 0E0h	; ?
-		db  30h	; 0
-		db  30h	; 0
-		db  1Ch
-		db    0
-		db  18h
-		db  18h
-		db  18h
-		db    0
-		db  18h
-		db  18h
-		db  18h
-		db    0
-		db 0E0h	; ?
-		db  30h	; 0
-		db  30h	; 0
-		db  1Ch
-		db  30h	; 0
-		db  30h	; 0
-		db 0E0h	; ?
-		db    0
-		db  76h	; v
-		db 0DCh	; ?
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db  10h
-		db  38h	; 8
-		db  6Ch	; l
-		db 0C6h	; ?
-		db 0C6h	; ?
-		db 0FEh	; ?
-		db    0
+;---------------------------------------------------------------------------------------------------
+; 8x8 Graphics Character Set (chars 0-127)
+;---------------------------------------------------------------------------------------------------
+gfx_chars	db	000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h		;   0  nul
+		db	07Eh, 081h, 0A5h, 081h, 0BDh, 099h, 081h, 07Eh		;   1  soh
+		db	07Eh, 0FFh, 0DBh, 0FFh, 0C3h, 0E7h, 0FFh, 07Eh		;   2  stx
+		db	06Ch, 0FEh, 0FEh, 0FEh, 07Ch, 038h, 010h, 000h		;   3  etx
+		db	010h, 038h, 07Ch, 0FEh,	07Ch, 038h, 010h, 000h		;   4  eot
+		db	038h, 07Ch, 038h, 0FEh,	0FEh, 07Ch, 038h, 07Ch		;   5  enq
+		db	010h, 010h, 038h, 07Ch,	0FEh, 07Ch, 038h, 07Ch		;   6  ack
+		db	000h, 000h, 018h, 03Ch,	03Ch, 018h, 000h, 000h		;   7  bel
+		db	0FFh, 0FFh, 0E7h, 0C3h, 0C3h, 0E7h, 0FFh, 0FFh		;   8  bs
+		db	000h, 03Ch, 066h, 042h, 042h, 066h, 03Ch, 000h		;   9  ht
+		db	0FFh, 0C3h, 099h, 0BDh, 0BDh, 099h, 0C3h, 0FFh		;  10  lf
+		db	00Fh, 007h, 00Fh, 07Dh, 0CCh, 0CCh, 0CCh, 078h		;  11  vt
+		db	03Ch, 066h, 066h, 066h, 03Ch, 018h, 07Eh, 018h		;  12  ff
+		db	03Fh, 033h, 03Fh, 030h, 030h, 070h, 0F0h, 0E0h		;  13  cr
+		db	07Fh, 063h, 07Fh, 063h, 063h, 067h, 0E6h, 0C0h		;  14  so
+		db	099h, 05Ah, 03Ch, 0E7h, 0E7h, 03Ch, 05Ah, 099h		;  15  si
+		db	080h, 0E0h, 0F8h, 0FEh, 0F8h, 0E0h, 080h, 000h		;  16  dle
+		db	002h, 00Eh, 03Eh, 0FEh,	03Eh, 00Eh, 002h, 000h		;  17  dc1
+		db	018h, 03Ch, 07Eh, 018h, 018h, 07Eh, 03Ch, 018h		;  18  dc2
+		db	066h, 066h, 066h, 066h,	066h, 000h, 066h, 000h		;  19  dc3
+		db	07Fh, 0DBh, 0DBh, 07Bh,	01Bh, 01Bh, 01Bh, 000h		;  20  dc4
+		db	03Eh, 063h, 038h, 06Ch,	06Ch, 038h, 0CCh, 078h		;  21  nak
+		db	000h, 000h, 000h, 000h,	07Eh, 07Eh, 07Eh, 000h		;  22  syn
+		db	018h, 03Ch, 07Eh, 018h, 07Eh, 03Ch, 018h, 0FFh		;  23  etb
+		db	018h, 03Ch, 07Eh, 018h, 018h, 018h, 018h, 000h		;  24  can
+		db	018h, 018h, 018h, 018h, 07Eh, 03Ch, 018h, 000h		;  25  em
+		db	000h, 018h, 00Ch, 0FEh, 00Ch, 018h, 000h, 000h		;  26  sub
+		db	000h, 030h, 060h, 0FEh,	060h, 030h, 000h, 000h		;  27  esc
+		db	000h, 000h, 0C0h, 0C0h,	0C0h, 0FEh, 000h, 000h		;  28  fs
+		db	000h, 024h, 066h, 0FFh,	066h, 024h, 000h, 000h		;  29  gs
+		db	000h, 018h, 03Ch, 07Eh,	0FFh, 0FFh, 000h, 000h		;  30  rs
+		db	000h, 0FFh, 0FFh, 07Eh, 03Ch, 018h, 000h, 000h		;  31  us
+		db	000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h		;  32  space
+		db	030h, 078h, 078h, 030h,	030h, 000h, 030h, 000h		;  33  !
+		db	06Ch, 06Ch, 06Ch, 000h,	000h, 000h, 000h, 000h		;  34  "
+		db	06Ch, 06Ch, 0FEh, 06Ch,	0FEh, 06Ch, 06Ch, 000h		;  35  #
+		db	030h, 07Ch, 0C0h, 078h, 00Ch, 0F8h, 030h, 000h		;  36  $
+		db	000h, 0C6h, 0CCh, 018h, 030h, 066h, 0C6h, 000h		;  37  %
+		db	038h, 06Ch, 038h, 076h,	0DCh, 0CCh, 076h, 000h		;  38  &
+		db	060h, 060h, 0C0h, 000h,	000h, 000h, 000h, 000h		;  39  '
+		db	018h, 030h, 060h, 060h,	060h, 030h, 018h, 000h		;  40  (
+		db	060h, 030h, 018h, 018h,	018h, 030h, 060h, 000h		;  41  )
+		db	000h, 066h, 03Ch, 0FFh,	03Ch, 066h, 000h, 000h		;  42  *
+		db	000h, 030h, 030h, 0FCh,	030h, 030h, 000h, 000h		;  43  +
+		db	000h, 000h, 000h, 000h,	000h, 030h, 030h, 060h		;  44  ,
+		db	000h, 000h, 000h, 0FCh,	000h, 000h, 000h, 000h		;  45  -
+		db	000h, 000h, 000h, 000h,	000h, 030h, 030h, 000h		;  46  .
+		db	006h, 00Ch, 018h, 030h,	060h, 0C0h, 080h, 000h		;  47  /
+		db	07Ch, 0C6h, 0CEh, 0DEh,	0F6h, 0E6h, 07Ch, 000h		;  48  0
+		db	030h, 070h, 030h, 030h,	030h, 030h, 0FCh, 000h		;  49  1
+		db	078h, 0CCh, 00Ch, 038h,	060h, 0CCh, 0FCh, 000h		;  50  2
+		db	078h, 0CCh, 00Ch, 038h,	00Ch, 0CCh, 078h, 000h		;  51  3
+		db	01Ch, 03Ch, 06Ch, 0CCh,	0FEh, 00Ch, 01Eh, 000h		;  52  4
+		db	0FCh, 0C0h, 0F8h, 00Ch,	00Ch, 0CCh, 078h, 000h		;  53  5
+		db	038h, 060h, 0C0h, 0F8h, 0CCh, 0CCh, 078h, 000h		;  54  6
+		db	0FCh, 0CCh, 00Ch, 018h,	030h, 030h, 030h, 000h		;  55  7
+		db	078h, 0CCh, 0CCh, 078h,	0CCh, 0CCh, 078h, 000h		;  56  8
+		db	078h, 0CCh, 0CCh, 07Ch,	00Ch, 018h, 070h, 000h		;  57  9
+		db	000h, 030h, 030h, 000h,	000h, 030h, 030h, 000h		;  58  :
+		db	000h, 030h, 030h, 000h,	000h, 030h, 030h, 060h		;  59  ;
+		db	018h, 030h, 060h, 0C0h,	060h, 030h, 018h, 000h		;  60  <
+		db	000h, 000h, 0FCh, 000h,	000h, 0FCh, 000h, 000h		;  61  =
+		db	060h, 030h, 018h, 00Ch, 018h, 030h, 060h, 000h		;  62  >
+		db	078h, 0CCh, 00Ch, 018h,	030h, 000h, 030h, 000h		;  63  ?
+		db	07Ch, 0C6h, 0DEh, 0DEh,	0DEh, 0C0h, 078h, 000h		;  64  @
+		db	030h, 078h, 0CCh, 0CCh, 0FCh, 0CCh, 0CCh, 000h		;  65  A
+		db	0FCh, 066h, 066h, 07Ch, 066h, 066h, 0FCh, 000h		;  66  B
+		db	03Ch, 066h, 0C0h, 0C0h, 0C0h, 066h, 03Ch, 000h		;  67  C
+		db	0F8h, 06Ch, 066h, 066h, 066h, 06Ch, 0F8h, 000h		;  68  D
+		db	0FEh, 062h, 068h, 078h,	068h, 062h, 0FEh, 000h		;  69  E
+		db	0FEh, 062h, 068h, 078h,	068h, 060h, 0F0h, 000h		;  70  F
+		db	03Ch, 066h, 0C0h, 0C0h, 0CEh, 066h, 03Eh, 000h		;  71  G
+		db	0CCh, 0CCh, 0CCh, 0FCh,	0CCh, 0CCh, 0CCh, 000h		;  72  H
+		db	078h, 030h, 030h, 030h,	030h, 030h, 078h, 000h		;  73  I
+		db	01Eh, 00Ch, 00Ch, 00Ch,	0CCh, 0CCh, 078h, 000h		;  74  J
+		db	0E6h, 066h, 06Ch, 078h,	06Ch, 066h, 0E6h, 000h		;  75  K
+		db	0F0h, 060h, 060h, 060h,	062h, 066h, 0FEh, 000h		;  76  L
+		db	0C6h, 0EEh, 0FEh, 0FEh,	0D6h, 0C6h, 0C6h, 000h		;  77  M
+		db	0C6h, 0E6h, 0F6h, 0DEh,	0CEh, 0C6h, 0C6h, 000h		;  78  N
+		db	038h, 06Ch, 0C6h, 0C6h,	0C6h, 06Ch, 038h, 000h		;  79  O
+		db	0FCh, 066h, 066h, 07Ch,	060h, 060h, 0F0h, 000h		;  80  P
+		db	078h, 0CCh, 0CCh, 0CCh,	0DCh, 078h, 01Ch, 000h		;  81  Q
+		db	0FCh, 066h, 066h, 07Ch,	06Ch, 066h, 0E6h, 000h		;  82  R   +
+		db	078h, 0CCh, 0E0h, 070h,	01Ch, 0CCh, 078h, 000h		;  83  S   +
+		db	0FCh, 0B4h, 030h, 030h,	030h, 030h, 078h, 000h		;  84  T   +
+		db	0CCh, 0CCh, 0CCh, 0CCh,	0CCh, 0CCh, 0FCh, 000h		;  85  U   +
+		db	0CCh, 0CCh, 0CCh, 0CCh,	0CCH, 078h, 030h, 000h		;  86  V   +
+		db	0C6h, 0C6h, 0C6h, 0D6h,	0FEh, 0EEh, 0C6h, 000h		;  87  W   +
+		db	0C6h, 0C6h, 06Ch, 038h,	038h, 06Ch, 0C6h, 000h		;  88  X   +
+		db	0CCh, 0CCh, 0CCh, 078h,	030h, 030h, 078h, 000h		;  89  Y   +
+		db	0FEh, 0C6h, 08Ch, 018h,	032h, 066h, 0FEh, 000h		;  90  Z   +
+		db	078h, 060h, 060h, 060h,	060h, 060h, 078h, 000h		;  91  [   +
+		db	0C0h, 060h, 030h, 018h,	00Ch, 006h, 002h, 000h		;  92  backslash   +
+		db	078h, 018h, 018h, 018h,	018h, 018h, 078h, 000h		;  93  ]   +
+		db	010h, 038h, 06Ch, 0C6h,	000h, 000h, 000h, 000h		;  94  ^   +
+		db	000h, 000h, 000h, 000h,	000h, 000h, 000h, 0FFh		;  95  _   +
+		db	030h, 030h, 018h, 000h,	000h, 000h, 000h, 000h		;  96  `   +
+		db	000h, 000h, 078h, 00Ch,	07Ch, 0CCh, 076h, 000h		;  97  a   +
+		db	0E0h, 060h, 060h, 07Ch,	066h, 066h, 0DCh, 000h		;  98  b   +
+		db	000h, 000h, 078h, 0CCh,	0C0h, 0CCh, 078h, 000h		;  99  c   +
+		db	01Ch, 00Ch, 00Ch, 07Ch,	0CCh, 0CCh, 076h, 000h		; 100  d   +
+		db	000h, 000h, 078h, 0CCh,	0FCh, 0C0h, 078h, 000h		; 101  e   +
+		db	038h, 06Ch, 060h, 0F0h,	060h, 060h, 0F0h, 000h		; 102  f   +
+		db	000h, 000h, 076h, 0CCh,	0CCh, 07Ch, 00Ch, 0F8h		; 103  g   +
+		db	0E0h, 060h, 06Ch, 076h,	066h, 066h, 0E6h, 000h		; 104  h   +
+		db	030h, 000h, 070h, 030h,	030h, 030h, 078h, 000h		; 105  i   +
+		db	00Ch, 000h, 00Ch, 00Ch,	00Ch, 0CCh, 0CCh, 078h		; 106  j   +
+		db	0E0h, 060h, 066h, 06Ch,	078h, 06Ch, 0E6h, 000h		; 107  k   +
+		db	070h, 030h, 030h, 030h,	030h, 030h, 078h, 000h		; 108  l   +
+		db	000h, 000h, 0CCh, 0FEh,	0FEh, 0D6h, 0C6h, 000h		; 109  m   +
+		db	000h, 000h, 0F8h, 0CCh,	0CCh, 0CCh, 0CCh, 000h		; 110  n   +
+		db	000h, 000h, 078h, 0CCh,	0CCh, 0CCh, 078h, 000h		; 111  o   +
+		db	000h, 000h, 0DCh, 066h,	066h, 07Ch, 060h, 0F0h		; 112  p   +
+		db	000h, 000h, 076h, 0CCh,	0CCh, 07Ch, 00Ch, 01Eh		; 113  q   +
+		db	000h, 000h, 0DCh, 076h,	066h, 060h, 0F0h, 000h		; 114  r   +
+		db	000h, 000h, 07Ch, 0C0h,	078h, 00Ch, 0F8h, 000h		; 115  s   +
+		db	010h, 030h, 07Ch, 030h,	030h, 034h, 018h, 000h		; 116  t   +
+		db	000h, 000h, 0CCh, 0CCh,	0CCh, 0CCh, 076h, 000h		; 117  u   +
+		db	000h, 000h, 0CCh, 0CCh,	0CCh, 078h, 030h, 000h		; 118  v   +
+		db	000h, 000h, 0C6h, 0D6h, 0FEh, 0FEh, 06Ch, 000h		; 119  w   +
+		db	000h, 000h, 0C6h, 06Ch,	038h, 06Ch, 0C6h, 000h		; 120  x   +
+		db	000h, 000h, 0CCh, 0CCh,	0CCh, 07Ch, 00Ch, 0F8h		; 121  y   +
+		db	000h, 000h, 0FCh, 098h,	030h, 064h, 0FCh, 000h		; 122  z   +
+		db	01Ch, 030h, 030h, 0E0h,	030h, 030h, 01Ch, 000h		; 123  {   +
+		db	018h, 018h, 018h, 000h,	018h, 018h, 018h, 000h		; 124  |   +
+		db	0E0h, 030h, 030h, 01Ch,	030h, 030h, 0E0h, 000h		; 125  }   +
+		db	076h, 0DCh, 000h, 000h,	000h, 000h, 000h, 000h		; 126  ~   +
+		db	000h, 010h, 038h, 06Ch,	0C6h, 0C6h, 0FEh, 000h		; 127  del +
 ; ---------------------------------------------------------------------------
 proc 		int_1Ah near
 		push	ds
@@ -5962,11 +4869,6 @@ loc_FFE92:				; ...
 		mov	[ds:6Eh], cx
 		mov	[byte ptr ds:70h], 0
 		jmp	short loc_FFE7E
-; ---------------------------------------------------------------------------
-		db    0
-		db    0
-		db    0
-		db    0
 ; ---------------------------------------------------------------------------
 proc		int_08h near
 		push	ds
@@ -6009,8 +4911,6 @@ loc_FFEE7:				; ...
 		iret
 endp		int_08h
 ; ---------------------------------------------------------------------------
-		db    0
-		db    0
 int_vec_table_1:		
 		dw offset int_08h         ; Offest int_08h
 		dw offset int_09h         ; Offset int_09h
@@ -6065,7 +4965,6 @@ kb_alt_num:	db    0
 kb_q_head:	dw  1Eh
 kb_q_tail:	dw  1Eh
 kb_queue:	dw  1Eh
-		db    2 dup(0)
 ; ---------------------------------------------------------------------------
 ;  Dummy interrupt
 ;----------------------------------------------------------------------------
@@ -6225,7 +5124,7 @@ proc		int_6Fh near
 		iret
 endp		int_6Fh
 ; ---------------------------------------------------------------------------
-		db    0
+		db    204 dup (0)
 ;--------------------------------------------------------------------------------------------------
 ; Power-On Entry Point
 ;--------------------------------------------------------------------------------------------------
@@ -6233,7 +5132,7 @@ proc		power	far				;   CPU begins here on power up
 		jmpfar	0F000h, warm_boot
 endp 		power
 ; ---------------------------------------------------------------------------
-
+	
 ;--------------------------------------------------------------------------------------------------
 ; BIOS Release Date and Signature
 ;--------------------------------------------------------------------------------------------------
