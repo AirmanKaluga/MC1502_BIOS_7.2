@@ -1,6 +1,5 @@
 		Ideal
-		;p8086n
-		model small ;; we produce .EXE file 
+		model small ; produce .EXE file then truncate it
 ;---------------------------------------------------------------------------------------------------
 ; Macros
 ;---------------------------------------------------------------------------------------------------
@@ -16,6 +15,7 @@ LF	equ	0Ah
 CR	equ	0Dh
 
 BDAseg equ 040h
+
 dsk_motor_stat equ 03Fh
 dsk_motor_tmr equ 040h
 dsk_ret_code equ 041h
