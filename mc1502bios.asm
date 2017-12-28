@@ -2290,9 +2290,6 @@ endp		sub_FEC85
 
 proc		sub_FECC2 near		; ...
 
-; FUNCTION CHUNK AT EE0E SIZE 000000C5 BYTES
-; FUNCTION CHUNK AT EF0A SIZE 0000003C BYTES
-
 		and	[byte ptr ds:3Fh], 7Fh
 		or	ah, ah
 		jz	short loc_FED01
@@ -2770,15 +2767,17 @@ loc_FEF66:				; ...
 		mov	al, 0F0h
 		jmp	loc_FE7F3
 ; ---------------------------------------------------------------------------
-unk_FEF8F	db    0			; ...
-		db  20h
-		db    1
-		db  21h	; !
-		db  40h	; @
-		db  60h	; `
-		db  41h	; A
-		db  61h	; a
-unk_FEF97	db    0			; ...
+unk_FEF8F:
+		db    0	;
+		db  20h ;
+		db    1 ;
+		db  21h	;
+		db  40h	;
+		db  60h	;
+		db  41h	;
+		db  61h	;
+unk_FEF97:
+		db    0	;
 		db    4
 		db    2
 		db    6
@@ -2948,22 +2947,23 @@ loc_FF032:				; ...
 					; 7: 0=enable kbrd
 		jmp	short loc_FF00E
 ; ---------------------------------------------------------------------------
-off_FF045	dw offset loc_FF0FC
-		dw offset loc_FF1A2
-		dw offset loc_FF1B5
-		dw offset loc_FF1F1
-		dw offset loc_FF198
-		dw offset loc_FF20C
-		dw offset loc_FF24D
-		dw offset loc_FF2C8
-		dw offset loc_FF335
-		dw offset loc_FF372
-		dw offset loc_FF3AC
-		dw offset loc_FF3E6
-		dw offset loc_FF40C
-		dw offset loc_FF463
-		dw offset loc_FF4AF
-		dw offset loc_FF7B5
+video_funcs:
+		dw offset int_10_func_0 ; Set mode
+		dw offset int_10_func_1 ; Set cursor type
+		dw offset int_10_func_2 ; Set cursor position
+		dw offset int_10_func_3 ; Get cursor position
+		dw offset int10_end ; Read light pen position - not supported now
+		dw offset loc_FF20C ; Set active display page
+		dw offset loc_FF24D ; Scroll active page up
+		dw offset loc_FF2C8 ; Scroll active page down
+		dw offset loc_FF335 ; Read attribute/character
+		dw offset loc_FF372 ; Write attribute/character
+		dw offset loc_FF3AC ; Write character only
+		dw offset loc_FF3E6 ; Set color
+		dw offset loc_FF40C ; Write pixel
+		dw offset loc_FF463 ; Read pixel
+		dw offset loc_FF4AF ; Write teletype
+		dw offset loc_FF7B5 ; Return current video state
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 1Dh - Video Parameter Tables
 ;---------------------------------------------------------------------------------------------------
@@ -3010,30 +3010,30 @@ proc		int_10h near
 		push	es
 		mov	bp, ax
 		mov	al, ah
-		cmp	al, 10h
+		cmp	al, 10h ; Is ah a legal video command?
 		jb	short loc_FF07B
-		jmp	loc_FF198
+		jmp	int10_end ;   error return if not
 ; ---------------------------------------------------------------------------
 
 loc_FF07B:				; ...
 		xor	ah, ah
-		shl	ax, 1
+		shl	ax, 1  ; Make word value
 		xchg	ax, bp
 		mov	si, BDAseg
 		mov	ds, si
 		mov	si, 0B800h
 		mov	es, si
 		assume es:nothing
-		jmp	[cs:off_FF045+bp]
+		jmp	[cs:video_funcs+bp] ;   vector to routines
 ; ---------------------------------------------------------------------------
 
-loc_FF0FC:				; ...
+int_10_func_0:				; int 10 function 0: Set video mode
 		push	ax
 		and	al, 7Fh
 		cmp	al, 7
 		pop	ax
 		jb	short loc_FF107
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF107:				; ...
@@ -3126,7 +3126,7 @@ loc_FF191:				; ...
 		add	dx, 4
 		out	dx, ax
 
-loc_FF198:				; ...
+int10_end:				; ...
 		pop	es
 		pop	ds
 		assume ds:nothing
@@ -3141,7 +3141,7 @@ loc_FF198:				; ...
 endp		int_10h
 ; ---------------------------------------------------------------------------
 
-loc_FF1A2:				; ...
+int_10_func_1:				; ...
 		mov	[ds:60h], cx
 		mov	dx, [ds:63h]
 		mov	al, 0Ah
@@ -3150,10 +3150,10 @@ loc_FF1A2:				; ...
 		inc	ax
 		mov	ah, cl
 		out	dx, ax
-		jmp	short loc_FF198
+		jmp	short int10_end
 ; ---------------------------------------------------------------------------
 
-loc_FF1B5:				; ...
+int_10_func_2:				; ...
 		and	bh, 7
 		xor	ax, ax
 		mov	al, bh
@@ -3181,10 +3181,10 @@ loc_FF1B5:				; ...
 		out	dx, ax
 
 loc_FF1EF:				; ...
-		jmp	short loc_FF198
+		jmp	short int10_end
 ; ---------------------------------------------------------------------------
 
-loc_FF1F1:				; ...
+int_10_func_3:				; ...
 		and	bh, 7
 		mov	bl, bh
 		xor	bh, bh
@@ -3234,7 +3234,7 @@ loc_FF20C:				; ...
 		inc	ax
 		mov	ah, cl
 		out	dx, ax
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF24D:				; ...
@@ -3306,7 +3306,7 @@ loc_FF2B5:				; ...
 		mov	dx, [ds:63h]
 		add	dx, 4
 		out	dx, ax
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF2C8:				; ...
@@ -3448,7 +3448,7 @@ loc_FF37C:				; ...
 		pop	cx
 		pop	ax
 		rep stosw
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF3AC:				; ...
@@ -3485,7 +3485,7 @@ loc_FF3DF:				; ...
 		stosb
 		inc	di
 		loop	loc_FF3DF
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF3E6:				; ...
@@ -3509,7 +3509,7 @@ loc_FF3FD:				; ...
 loc_FF405:				; ...
 		out	dx, al
 		mov	[ds:66h], al
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF40C:				; ...
@@ -3558,7 +3558,7 @@ loc_FF44D:				; ...
 loc_FF45B:				; ...
 		xor	al, dh
 		mov	[es:bx], al
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF463:				; ...
@@ -3668,7 +3668,7 @@ loc_FF507:				; ...
 					; BH = attributes to be	used on	blanked	lines
 					; CH,CL	= row,column of	upper left corner of window to scroll
 					; DH,DL	= row,column of	lower right corner of window
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF50C:				; ...
@@ -3716,7 +3716,7 @@ loc_FF526:				; ...
 					; 5: 0=enable I/O channel check
 					; 6: 0=hold keyboard clock low
 					; 7: 0=enable kbrd
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF52F:				; ...
@@ -3812,7 +3812,7 @@ loc_FF5B4:				; ...
 loc_FF5C6:				; ...
 		dec	dh
 		jnz	short loc_FF5B4
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF5CD:				; ...
@@ -3891,7 +3891,7 @@ loc_FF641:				; ...
 loc_FF655:				; ...
 		dec	dh
 		jnz	short loc_FF641
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF65C:				; ...
@@ -4111,7 +4111,7 @@ loc_FF7A2:				; ...
 loc_FF7AE:				; ...
 		dec	dh
 		jnz	short loc_FF73D
-		jmp	loc_FF198
+		jmp	int10_end
 ; ---------------------------------------------------------------------------
 
 loc_FF7B5:				; ...
@@ -5039,7 +5039,7 @@ endp 		power
 ; BIOS Release Date and Signature
 ;--------------------------------------------------------------------------------------------------
 date		db '01/21/96',0
-		db 0FEh
+			db 0FEh
 		
 ends		code
 		end
