@@ -190,7 +190,7 @@ loc_FE12E:				; ...
 		not	ax
 		mov	[bx], ax
 		cmp	ax, [bx]
-		jnz	short loc_FE148
+		jnz	short Print_Startup_Information
 		not	[word ptr bx]
 		add	ch, 8
 		mov	ds, cx
@@ -199,7 +199,7 @@ loc_FE12E:				; ...
 		cmp	di, 2E0h
 		jb	short loc_FE12E
 
-loc_FE148:				; ...
+Print_Startup_Information:				; ...
 		mov	[es:13h], di
 		mov	al, 0FCh
 		out	21h, al		; Interrupt controller,	8259A.
@@ -1221,21 +1221,14 @@ loc_FE733:				; ...
 endp		int_19h
 ; ---------------------------------------------------------------------------
                                 
-data_28		dw	0470h ; Data table (indexed access)
-		db  41h	; A
-		db    3
-		db 0A1h	; ?
-		db    1
-		db 0D0h	; ?
-		db    0
-		db  68h	; h
-		db    0
-		db  34h	; 4
-		db    0
-		db  1Ah
-		db    0
-		db  0Dh
-		db    0
+data_28		dw    0470h ; Data table (indexed access)
+		dw    341h	
+		dw    1A1h	
+		dw    0D0h	
+		dw    068h	
+		dw    034h	
+		dw    01Ah
+		dw    00Dh
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 14h - RS232
 ;---------------------------------------------------------------------------------------------------
@@ -2795,38 +2788,7 @@ unk_FEF97	db    0			; ...
 		db  1Ch
 		db  1Ah
 		db  1Eh
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
-		db    0
+		db  32 dup (0)
 
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 1Eh - Diskette Parameter Table
@@ -2999,23 +2961,23 @@ off_FF045	dw offset loc_FF0FC
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 1Dh - Video Parameter Tables
 ;---------------------------------------------------------------------------------------------------
-proc	int_1Dh	far
+proc		int_1Dh	far
 
-	db	38h, 28h, 2Dh, 0Ah, 1Fh, 6, 19h	; Init string for 40x25 color
-	db	1Ch, 2, 7, 6, 7
-	db	0, 0, 0, 0
+		db	38h, 28h, 2Dh, 0Ah, 1Fh, 6, 19h	; Init string for 40x25 color
+		db	1Ch, 2, 7, 6, 7
+		db	0, 0, 0, 0
 
-	db	71h, 50h, 5Ah, 0Ah, 1Fh, 6, 19h	; Init string for 80x25 color
-	db	1Ch, 2, 7, 6, 7
-	db	0, 0, 0, 0
+		db	71h, 50h, 5Ah, 0Ah, 1Fh, 6, 19h	; Init string for 80x25 color
+		db	1Ch, 2, 7, 6, 7
+		db	0, 0, 0, 0
 
-	db	38h, 28h, 2Dh, 0Ah, 7Fh, 6, 64h	; Init string for graphics
-	db	70h, 2, 1, 6, 7
-	db	0, 0, 0, 0
+		db	38h, 28h, 2Dh, 0Ah, 7Fh, 6, 64h	; Init string for graphics
+		db	70h, 2, 1, 6, 7
+		db	0, 0, 0, 0
 
-	db	61h, 50h, 52h, 0Fh, 19h, 6, 19h	; Init string for 80x25 b/w
-	db	19h, 2, 0Dh, 0Bh, 0Ch
-	db	0, 0, 0, 0
+		db	61h, 50h, 52h, 0Fh, 19h, 6, 19h	; Init string for 80x25 b/w
+		db	19h, 2, 0Dh, 0Bh, 0Ch
+		db	0, 0, 0, 0
 
 regen_len	dw	0800h			; Regen length, 40x25
 		dw	1000h			;	        80x25
@@ -3025,7 +2987,7 @@ regen_len	dw	0800h			; Regen length, 40x25
 max_cols	db	28h, 28h, 50h, 50h, 28h, 28h, 50h, 50h	; Maximum columns
 video_hdwr_mode db	2Ch, 28h, 2Dh, 29h, 2Ah, 2Eh, 1Eh, 29h	; Table of mode sets
 mul_lookup      db	00h, 00h, 10h, 10h, 20h, 20h, 20h, 30h	; Table lookup for multiply
-endp	int_1Dh
+endp		int_1Dh
 
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 10h - Video BIOS (Mono/CGA) Main Entry
