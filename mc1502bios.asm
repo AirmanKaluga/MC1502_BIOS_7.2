@@ -93,7 +93,7 @@ warm_boot:				; ...
 		mov	al, 2
 		out	42h, al		; Timer	8253-5 (AT: 8254.2).
 		out	42h, al		; Timer	8253-5 (AT: 8254.2).
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		xor	ax, ax
@@ -1467,7 +1467,7 @@ unk_FE883	db  3Ah	; :		; ...
 		db  1Dh
 		db  2Ah	; *
 		db  36h	; 6
-data_31		db  80h	; 
+data_31		db  80h	; 
 		db  40h	; @
 		db  20h
 		db  10h
@@ -1488,7 +1488,7 @@ unk_FE892	db  1Bh			; ...
 		db 0FFh
 		db  1Fh
 		db 0FFh
-		db  7Fh	; 
+		db  7Fh	; 
 		db 0FFh
 		db  11h
 		db  17h
@@ -1547,7 +1547,7 @@ unk_FE8CC	db  5Eh	; ^		; ...
 		db 0FFh
 		db  77h	; w
 		db 0FFh
-		db  84h	; 
+		db  84h	; 
 		db 0FFh
 		db  73h	; s
 		db 0FFh
@@ -1616,7 +1616,7 @@ unk_FE8E5	db  1Bh			; ...
 		db 0FFh
 		db  20h
 		db 0FFh
-unk_FE91F	db  1Bh			; ...
+unk_FE91F	db  1Bh	; ...
 		db  21h	; !
 		db  40h	; @
 		db  23h	; #
@@ -2220,7 +2220,7 @@ proc		int_13h	near
 		push	di
 		push	ds
 		push	es
-		mov	si, 40h
+		mov	si, BDAseg
 		mov	ds, si
 		assume ds:nothing
 		call	sub_FEC85
