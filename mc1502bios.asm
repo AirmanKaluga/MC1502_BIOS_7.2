@@ -8,17 +8,23 @@ macro	jmpfar	segm, offs
 	db	0EAh;
 	dw	offs, segm
 endm
-
-
+;---------------------------------------------------------------------------------------------------
 ; Line feed and carriage return
 LF	equ	0Ah
 CR	equ	0Dh
 
 BDAseg equ 040h
 
+dsk_recal_stat equ 03Eh
 dsk_motor_stat equ 03Fh
 dsk_motor_tmr equ 040h
 dsk_ret_code equ 041h
+dsk_status_1 equ 042h
+dsk_status_2 equ 043h
+dsk_status_3 equ 044h
+dsk_status_4 equ 045h
+dsk_status_5 equ 046h
+dsk_status_7 equ 048h
 
 dsk_motor_stat_ equ 043Fh
 
@@ -36,7 +42,7 @@ Banner:
 str_banner	db  0Ah
 		db  0Dh
 		db    7
-    		db 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev '
+		db 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev '
 		db '1996'
 loc_0E047h:
 		db 0Ah
@@ -468,7 +474,7 @@ proc		sub_FE2EF near		; ...
 		mov	ax, si
 		inc	ax
 		mov	ah, ch
-		test	[ds:3Eh], al
+		test	[ds:dsk_recal_stat], al
 		jnz	short loc_FE308
 		call	sub_FE394
 		jnb	short loc_FE304
@@ -477,22 +483,22 @@ proc		sub_FE2EF near		; ...
 ; ---------------------------------------------------------------------------
 ; dsk_status ?
 loc_FE304:				; ...
-		or	[ds:3Eh], al
+		or	[ds:dsk_recal_stat], al
 
 loc_FE308:				; ...
 		mov	al, ah
 		call	sub_FE2D3
-		mov	dl, [ds:0042h]
+		mov	dl, [ds:dsk_status_1]
 		inc	dx
 		out	dx, al
-		mov	cl, [ds:0048h]
+		mov	cl, [ds:dsk_status_7]
 		shl	al, cl
-		cmp	al, [si+46h]
+		cmp	al, [si+dsk_status_5]
 		jz	short loc_FE360
 		inc	dx
 		inc	dx
 		out	dx, al
-		xchg al, [si+ 0046h]
+		xchg al, [si+dsk_status_5]
 		dec	dx
 		dec	dx
 		out	dx, al
@@ -501,7 +507,7 @@ loc_FE308:				; ...
 		out	dx, al
 		call	sub_FE2DD
 		mov	al, ah
-		mov	dl, [ds:0042h]
+		mov	dl, [ds:dsk_status_1]
 		inc	dx
 		out	dx, al
 		test	[byte ptr ds:dsk_motor_stat], 80h
@@ -509,16 +515,16 @@ loc_FE308:				; ...
 		inc	dx
 		inc	dx
 		out	dx, al
-		mov	dl, [ds:42h]
+		mov	dl, [ds:dsk_status_1]
 		mov	al, bl
 		out	dx, al
-		mov	dl, [ds:44h]
+		mov	dl, [ds:dsk_status_3]
 		in	al, dx
-		mov	dl, [ds:42h]
+		mov	dl, [ds:dsk_status_1]
 		in	al, dx
 		and	al, 19h
 		jz	short loc_FE360
-		or	[byte ptr ds:41h], 40h
+		or	[byte ptr ds:dsk_ret_code], 40h
 		stc
 		pop	cx
 		jmp	short loc_FE36A
@@ -527,7 +533,7 @@ loc_FE308:				; ...
 loc_FE360:				; ...
 		pop	cx
 		mov	al, cl
-		mov	dl, [ds:42h]
+		mov	dl, [ds:dsk_status_1]
 		inc	dx
 		inc	dx
 		out	dx, al
@@ -692,8 +698,8 @@ proc		sub_FE452 near		; ...
 		pop	bx
 		pop	cx
 		push	ax
-		mov	ax, [ds:0013h] ; main_ram_size
-		cmp	ax, 0060h
+		mov	ax, [ds:0013h] ; main_ram_size 
+		cmp	ax, 0060h  ; 96 kb
 		pop	ax
 		ja	short loc_FE475
 		mov	al, 0
@@ -1106,40 +1112,40 @@ unk_FE67B	db  21h	; !		; ...
 		db    0
 		db    0
 		db    0
-unk_FE689	db  89h	; 		; ...
-		db  96h	; 
-		db  93h	; 
+unk_FE689	db  89h	; ?		; ...
+		db  96h	; ?
+		db  93h	; ?
 		db  8Ah	; ?
-		db  85h	; 
+		db  85h	; ?
 		db  8Dh	; ?
 		db  83h	; ?
 		db  98h	; ?
-		db  99h	; 
-		db  87h	; 
-		db  95h	; 
+		db  99h	; ?
+		db  87h	; ?
+		db  95h	; ?
 		db  9Ah	; ?
 		db    0
 		db    0
-		db  94h	; 
-		db  9Bh	; 
-		db  82h	; 
-		db  80h	; 
+		db  94h	; ?
+		db  9Bh	; ?
+		db  82h	; ?
+		db  80h	; ?
 		db  8Fh	; ?
 		db  90h	; ?
 		db  8Eh	; ?
-		db  8Bh	; 
-		db  84h	; 
-		db  86h	; 
+		db  8Bh	; ?
+		db  84h	; ?
+		db  86h	; ?
 		db  9Dh	; ?
 		db 0F0h	; ?
 		db    0
 		db  5Dh	; ]
 		db  9Fh	; ?
-		db  97h	; 
-		db  91h	; 
+		db  97h	; ?
+		db  91h	; ?
 		db  8Ch	; ?
 		db  88h	; ?
-		db  92h	; 
+		db  92h	; ?
 		db  9Ch	; ?
 		db  81h	; ?
 		db  9Eh	; ?
@@ -2669,10 +2675,10 @@ unk_FEEF5	db    0			; ...
 		db 0FBh	; ?
 		db    1
 	
-data_37	db  93h	; 
+data_37	db  93h	; ?
 		db  74h	; t
 		db  15h
-		db  97h	; 
+		db  97h	; ?
 		db  17h
 ; ---------------------------------------------------------------------------
 ; START	OF FUNCTION CHUNK FOR sub_FECC2
@@ -5033,11 +5039,7 @@ endp 		power
 ; BIOS Release Date and Signature
 ;--------------------------------------------------------------------------------------------------
 date		db '01/21/96',0
-
 		db 0FEh
-		;db    0
-
+		
 ends		code
-
-
 		end
