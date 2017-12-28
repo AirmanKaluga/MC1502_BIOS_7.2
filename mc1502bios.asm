@@ -15,7 +15,7 @@ endm
 LF	equ	0Ah
 CR	equ	0Dh
 
-
+BDAseg equ 040h
 dsk_motor_stat equ 03Fh
 dsk_motor_tmr equ 040h
 dsk_ret_code equ 041h
@@ -145,7 +145,7 @@ vec_table_2_loop:				; ...
 		stosw
 		mov	ax, cs
 		stosw
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	es, ax
 		assume es:nothing
 
@@ -251,13 +251,13 @@ loc_FE182:				; ...
 		jb	short loc_FE17D
 
 loc_FE1AC:				; ...
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		mov	[word ptr ds:67h], 3
 		mov	[word ptr ds:69h], 0BE00h
 
 loc_FE1BD:				; ...
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		add	[word ptr ds:6Ah], 2
 		cmp	[word ptr ds:69h], 0FE00h
@@ -739,7 +739,7 @@ proc		int_69h near
 		push	di
 		push	bp
 		push	ds
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		mov	bx, offset unk_FE58C
 		mov	di, 0
@@ -1055,16 +1055,16 @@ locret_FE655:				; ...
 endp		sub_FE5E8
 
 ; ---------------------------------------------------------------------------
-unk_FE656	db 0A9h	; ©		; ...
+unk_FE656	db 0A9h	; Â©		; ...
 		db 0E6h	; ?
 		db 0E3h	; ?
 		db 0AAh	; ?
 		db 0A5h	; ?
-		db 0ADh	; ­
+		db 0ADh	; Â­
 		db 0A3h	; ?
 		db 0E8h	; ?
 		db 0E9h	; ?
-		db 0A7h	; §
+		db 0A7h	; Â§
 		db 0E5h	; ?
 		db 0EAh	; ?
 		db    0
@@ -1075,10 +1075,10 @@ unk_FE656	db 0A9h	; ©		; ...
 		db 0A0h	;  
 		db 0AFh	; ?
 		db 0E0h	; ?
-		db 0AEh	; ®
-		db 0ABh	; «
+		db 0AEh	; Â®
+		db 0ABh	; Â«
 		db 0A4h	; ?
-		db 0A6h	; ¦
+		db 0A6h	; Â¦
 		db 0EDh	; ?
 		db 0F1h	; ?
 		db    0
@@ -1086,7 +1086,7 @@ unk_FE656	db 0A9h	; ©		; ...
 		db 0EFh	; ?
 		db 0E7h	; ?
 		db 0E1h	; ?
-		db 0ACh	; ¬
+		db 0ACh	; Â¬
 		db 0A8h	; ?
 		db 0E2h	; ?
 		db 0ECh	; ?
@@ -1106,40 +1106,40 @@ unk_FE67B	db  21h	; !		; ...
 		db    0
 		db    0
 		db    0
-unk_FE689	db  89h	; ‰		; ...
-		db  96h	; –
-		db  93h	; “
+unk_FE689	db  89h	; Â‰		; ...
+		db  96h	; Â–
+		db  93h	; Â“
 		db  8Ah	; ?
-		db  85h	; …
+		db  85h	; Â…
 		db  8Dh	; ?
 		db  83h	; ?
 		db  98h	; ?
-		db  99h	; ™
-		db  87h	; ‡
-		db  95h	; •
+		db  99h	; Â™
+		db  87h	; Â‡
+		db  95h	; Â•
 		db  9Ah	; ?
 		db    0
 		db    0
-		db  94h	; ”
-		db  9Bh	; ›
-		db  82h	; ‚
-		db  80h	; ˆ
+		db  94h	; Â”
+		db  9Bh	; Â›
+		db  82h	; Â‚
+		db  80h	; Âˆ
 		db  8Fh	; ?
 		db  90h	; ?
 		db  8Eh	; ?
-		db  8Bh	; ‹
-		db  84h	; „
-		db  86h	; †
+		db  8Bh	; Â‹
+		db  84h	; Â„
+		db  86h	; Â†
 		db  9Dh	; ?
 		db 0F0h	; ?
 		db    0
 		db  5Dh	; ]
 		db  9Fh	; ?
-		db  97h	; —
-		db  91h	; ‘
+		db  97h	; Â—
+		db  91h	; Â‘
 		db  8Ch	; ?
 		db  88h	; ?
-		db  92h	; ’
+		db  92h	; Â’
 		db  9Ch	; ?
 		db  81h	; ?
 		db  9Eh	; ?
@@ -1398,7 +1398,7 @@ proc		int_16h
 		sti
 		push	ds
 		push	bx
-		mov	bx, 40h
+		mov	bx, BDAseg
 		mov	ds, bx
 		assume ds:nothing
 		or	ah, ah
@@ -1467,7 +1467,7 @@ unk_FE883	db  3Ah	; :		; ...
 		db  1Dh
 		db  2Ah	; *
 		db  36h	; 6
-data_31		db  80h	; ˆ
+data_31		db  80h	; Âˆ
 		db  40h	; @
 		db  20h
 		db  10h
@@ -1547,7 +1547,7 @@ unk_FE8CC	db  5Eh	; ^		; ...
 		db 0FFh
 		db  77h	; w
 		db 0FFh
-		db  84h	; „
+		db  84h	; Â„
 		db 0FFh
 		db  73h	; s
 		db 0FFh
@@ -1736,7 +1736,7 @@ proc		int_09h
 		push	ds
 		push	es
 		cld
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		in	al, 60h		; 8042 keyboard	controller data	register
@@ -2518,7 +2518,7 @@ loc_FEE20:				; ...
 		mov	ds, bx
 		lds	bx, [ds:78h]
 		mov	di, [bx+7]
-		mov	bx, 40h
+		mov	bx, BDAseg
 		mov	ds, bx
 		assume ds:nothing
 		call	sub_FE452
@@ -2669,10 +2669,10 @@ unk_FEEF5	db    0			; ...
 		db 0FBh	; ?
 		db    1
 	
-data_37	db  93h	; “
+data_37	db  93h	; Â“
 		db  74h	; t
 		db  15h
-		db  97h	; —
+		db  97h	; Â—
 		db  17h
 ; ---------------------------------------------------------------------------
 ; START	OF FUNCTION CHUNK FOR sub_FECC2
@@ -3013,7 +3013,7 @@ loc_FF07B:				; ...
 		xor	ah, ah
 		shl	ax, 1
 		xchg	ax, bp
-		mov	si, 40h
+		mov	si, BDAseg
 		mov	ds, si
 		mov	si, 0B800h
 		mov	es, si
@@ -3293,7 +3293,7 @@ loc_FF2AB:				; ...
 		jnz	short loc_FF2AB
 
 loc_FF2B5:				; ...
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		mov	ax, [ds:65h]
@@ -4126,7 +4126,7 @@ loc_FF7B5:				; ...
 proc		int_12h near
 		sti
 		push	ds
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		mov	ax, [ds:13h]
@@ -4140,7 +4140,7 @@ endp		int_12h
 proc		int_11h near
 		sti
 		push	ds
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		mov	ax, [ds:10h]
@@ -4154,7 +4154,7 @@ endp		int_11h
 proc		int_15h near
 		push	ds
 		push	ax
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		pop	ax
@@ -4736,7 +4736,7 @@ gfx_chars	db	000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h		;   0  nul
 proc 		int_1Ah near
 		push	ds
 		push	ax
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		pop	ax
@@ -4770,7 +4770,7 @@ proc		int_08h near
 		push	ds
 		push	ax
 		push	dx
-		mov	ax, 40h
+		mov	ax, BDAseg
 		mov	ds, ax
 		assume ds:nothing
 		xor	ax, ax
