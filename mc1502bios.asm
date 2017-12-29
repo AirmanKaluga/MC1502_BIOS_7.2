@@ -1945,12 +1945,14 @@ unk_FEA78	db  4Fh	; O		; ...
                 db  30h	; 0
                 db  31h	; 1
                 db  32h	; 2
-unk_FEA9B	db  3Ch	; <		; ...
 ; ---------------------------------------------------------------------------
-                cmp	[di+5],	si
+unk_FEA9B:
+		cmp	al,39h   ; '9'
+		jne	loc_EAA4 ; Jump if not equal
                 mov	al, 20h
                 jmp	loc_FEBC7
 ; ---------------------------------------------------------------------------
+loc_EAA4:
                 mov	di, offset unk_FEA77
                 mov	cx, 0Ah
                 repne scasb
