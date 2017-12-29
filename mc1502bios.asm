@@ -1799,7 +1799,7 @@ loc_FE9A1:				; ...
 
 loc_FE9B4:				; ...
                 sub	di, offset unk_FE883
-                mov	ah, [cs:di-1776h]
+                mov	ah, cs:data_31[di]
                 test	al, 80h
                 jnz	short loc_FEA14
                 cmp	ah, 10h
