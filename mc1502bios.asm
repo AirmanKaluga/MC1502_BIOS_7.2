@@ -1,5 +1,5 @@
-                Ideal
-                model small ; produce .EXE file then truncate it
+	Ideal
+	model small ; produce .EXE file then truncate it
 ;---------------------------------------------------------------------------------------------------
 ; Macros
 ;---------------------------------------------------------------------------------------------------
@@ -5101,7 +5101,7 @@ endp 		power
 ; BIOS Release Date and Signature
 ;--------------------------------------------------------------------------------------------------
 date		db '01/21/96',0
-                        db 0FEh  ; Computer type (XT)
+		db 0FEh  ; Computer type (XT)
 
 ends		code
                 end
