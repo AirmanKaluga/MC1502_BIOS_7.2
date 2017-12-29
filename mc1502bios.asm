@@ -22,6 +22,7 @@ keybd_flags_2_ equ 018h
 keybd_alt_num_ equ 019h
 keybd_q_head_ equ 01Ah
 keybd_q_tail_ equ 01Ch
+keybd_break_ equ 071h
 
 dsk_recal_stat equ 03Eh
 dsk_motor_stat equ 03Fh
@@ -33,6 +34,7 @@ dsk_status_3 equ 044h
 dsk_status_4 equ 045h
 dsk_status_5 equ 046h
 dsk_status_7 equ 048h
+dsk_motor_stat_ equ 043Fh
 
 video_mode_ equ 049h
 video_columns_ equ 04Ah
@@ -48,18 +50,15 @@ video_color_ equ 066h
 
 gen_use_ptr_ equ 067h
 gen_use_seg_ equ 069h
-keybd_break_ equ 071h
-prn_timeout_1_ equ 078h
-rs232_timeout1_ equ 07Ch
-
 gen_int_occurd_ equ 06Bh
+
 timer_low_ equ 06Ch
 timer_hi_ equ 06Eh
 timer_rolled_ equ 070h
 
-dsk_motor_stat_ equ 043Fh
-
 warm_boot_flag_ equ 072h
+prn_timeout_1_ equ 078h
+rs232_timeout1_ equ 07Ch
 
 ; ===========================================================================
 
