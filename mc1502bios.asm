@@ -1258,7 +1258,7 @@ loc_FE733:				; ...
 endp		int_19h
 ; ---------------------------------------------------------------------------
 
-data_28		dw    0470h ; Data table (indexed access)
+baud		dw    470h 
                 dw    341h
                 dw    1A1h
                 dw    0D0h
@@ -1286,7 +1286,7 @@ proc		int_14h
                 mov	cl, 4
                 rol	bl, cl
                 and	bl, 0Eh
-                mov	ax, cs:data_28[bx]
+                mov	ax, cs:baud[bx]
                 out	41h, al		; Timer	8253-5 (AT: 8254.2).
                 mov	al, ah
                 out	41h, al		; Timer	8253-5 (AT: 8254.2).
