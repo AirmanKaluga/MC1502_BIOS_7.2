@@ -75,8 +75,8 @@ str_banner	db  0Ah
                 db    7
                 db 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev '
                 db '1996'
-loc_0E047h:
-                db 0Ah
+empty_string:
+		db 0Ah
                 db 0Dh
                 db 18 dup (0)
 
@@ -245,11 +245,11 @@ Print_Startup_Information:				; ...
                 int	10h		; - VIDEO - SET	VIDEO MODE
                                         ; AL = mode
                 mov	si, Banner
-                call	sub_FE24F
+                call	print_string
                 cmp	bp, 1234h
                 jz	short loc_FE1AC
                 mov	si, offset TestingSystem
-                call	sub_FE24F
+                call	print_string
                 mov	cx, 2
                 call	sub_FE247
                 mov	ax, es
@@ -308,8 +308,8 @@ loc_FE1BD:				; ...
 ; ---------------------------------------------------------------------------
 
 loc_FE1E2:				; ...
-                mov	si, loc_0E047h
-                call	sub_FE24F
+                mov	si, empty_string
+                call	print_string
                 xor	cx, cx
 
 loc_FE1EA:				; ...
@@ -323,7 +323,7 @@ loc_FE1EC:				; ...
 loc_FE1F0:				; ...
                 push	ax
                 mov	si, offset FailedAt
-                call	sub_FE24F
+                call	print_string
                 dec	di
                 dec	di
                 mov	ax, es
@@ -396,7 +396,8 @@ endp		sub_FE247
 
 
 
-proc		sub_FE24F near		; ...
+proc		print_string near		; ...
+print_string_loop:
                 lods	[byte ptr cs:si]
                 or	al, al
                 jz	short locret_FE24E
@@ -404,8 +405,8 @@ proc		sub_FE24F near		; ...
                 int	10h		; - VIDEO - WRITE CHARACTER AND	ADVANCE	CURSOR (TTY WRITE)
                                         ; AL = character, BH = display page (alpha modes)
                                         ; BL = foreground color	(graphics modes)
-                jmp	short sub_FE24F
-endp		sub_FE24F
+                jmp	short print_string_loop
+endp		print_string
 
 
 
@@ -1236,18 +1237,18 @@ loc_FE714:				; ...
                 shl	dl, 1
                 jb	short loc_FE6FA
                 test	[byte ptr es:dsk_motor_stat_], 40h
-                jnz	short loc_FE728
+                jnz	short System_not_found
                 or	[byte ptr es:dsk_motor_stat_], 40h
                 jmp	short loc_FE6FA
 ; ---------------------------------------------------------------------------
 
-loc_FE728:				; ...
+System_not_found:				; ...
                 mov	si, offset SystemNotFound
-                call	sub_FE24F
+                call	print_string
                 sti
 
-loc_FE731:				; ...
-                jmp	short loc_FE731
+System_boot_stop_loop:				; ...
+                jmp	short System_boot_stop_loop
 ; ---------------------------------------------------------------------------
 
 loc_FE733:				; ...
