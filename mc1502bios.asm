@@ -70,15 +70,19 @@ segment		code byte public 'CODE'
 
 
 Banner:
-str_banner	db  0Ah
-                db  0Dh
-                db    7
-                db 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev '
-                db '1996'
-empty_string:
-		db 0Ah
-                db 0Dh
-                db 18 dup (0)
+str_banner	db  LF ,CR, 7, 'New optimized superfast MS 1502 BIOS Version 7.2 (c) S. Mikayev ', '1996'
+
+empty_string:  
+		db LF, CR, 0
+TestingSystem:
+                db LF, CR, 'Testing system memory ...'
+                db 0Ah, 0Dh, 'Complete 000 K', 0
+
+FailedAt:
+		db 7, LF, CR, 'Failed at ', 0
+
+SystemNotFound:
+		db 7, LF, CR, 'System not found.', LF, CR, 0
 
 ; ---------------------------------------------------------------------------
 proc		post	near
@@ -449,13 +453,6 @@ proc		sub_FE26B near		; ...
 endp		sub_FE26B
 
 ; ---------------------------------------------------------------------------
-TestingSystem:
-                db 0Ah, 0Dh, 'Testing system memory ...'
-                db 0Ah, 0Dh, 'Complete 000 K', 0
-
-FailedAt	db 7, 0Ah, 0Dh, 'Failed at ', 0
-
-SystemNotFound	db 7, 0Ah, 0Dh, 'System not found.', 0Ah, 0Dh, 0
 
 port_int_fdc:
                 db  48h	 		; ...
@@ -5082,7 +5079,7 @@ proc		int_6Fh near
                 iret
 endp		int_6Fh
 ; ---------------------------------------------------------------------------
-                db    272 dup (0) ; Free Space
+                db    289 dup (0) ; Free Space
 ;--------------------------------------------------------------------------------------------------
 ; Power-On Entry Point
 ;--------------------------------------------------------------------------------------------------
