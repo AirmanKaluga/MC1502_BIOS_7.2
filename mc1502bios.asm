@@ -76,7 +76,7 @@ empty_string:
 		db LF, CR, 0
 TestingSystem:
                 db LF, CR, 'Testing system memory ...'
-                db 0Ah, 0Dh, 'Complete 000 K', 0
+                db LF, CR, 'Complete 000 K', 0
 
 FailedAt:
 		db 7, LF, CR, 'Failed at ', 0
