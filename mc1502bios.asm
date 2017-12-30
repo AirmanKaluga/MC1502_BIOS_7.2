@@ -247,7 +247,7 @@ Print_Startup_Information:				; ...
                 mov	si, Banner
                 call	print_string
                 cmp	bp, 1234h
-                jz	short loc_FE1AC
+                jz	short search_addinional_rom
                 mov	si, offset TestingSystem
                 call	print_string
                 mov	cx, 2
@@ -287,27 +287,27 @@ loc_FE182:				; ...
                 cmp	bx, [ds:main_ram_size_]
                 jb	short loc_FE17D
 
-loc_FE1AC:				; ...
+search_addinional_rom:				; ...
                 mov	ax, BDAseg
                 mov	ds, ax
                 mov	[word ptr ds:gen_use_ptr_], 3
                 mov	[word ptr ds:gen_use_seg_], 0BE00h
 
-loc_FE1BD:				; ...
+search_loop:				; ...
                 mov	ax, BDAseg
                 mov	ds, ax
                 add	[word ptr ds:gen_use_seg_+1], 2
                 cmp	[word ptr ds:gen_use_seg_], 0FE00h
-                jz	short loc_FE1E2
+                jz	short no_additional_rom
                 mov	es, [word ptr ds:gen_use_seg_]
                 assume es:nothing
                 cmp	[word ptr es:0], 0AA55h
-                jnz	short loc_FE1BD
+                jnz	short search_loop
                 call	[dword ptr ds:gen_use_ptr_]
-                jmp	short loc_FE1BD
+                jmp	short search_loop
 ; ---------------------------------------------------------------------------
 
-loc_FE1E2:				; ...
+no_additional_rom:				; ...
                 mov	si, empty_string
                 call	print_string
                 xor	cx, cx
@@ -345,7 +345,7 @@ loc_FE1F0:				; ...
                 xor	ax, ax
                 int	16h		; KEYBOARD - READ CHAR FROM BUFFER, WAIT IF EMPTY
                                         ; Return: AH = scan code, AL = character
-                jmp	short loc_FE1AC
+                jmp	short search_addinional_rom
 endp		post
 
 
@@ -1183,7 +1183,7 @@ unk_FE689	db  89h	; ?		; ...
                 db  9Eh	; ?
 ; ---------------------------------------------------------------------------
 
-special_bios_detect:				; ...
+special_rom_detect:				; ...
                 test	[byte ptr es:417h], 3
                 jnz	short read_boot_sector
                 mov	ax, 0E000h
@@ -1191,9 +1191,9 @@ special_bios_detect:				; ...
                 mov	ds, ax
                 assume ds:nothing
                 cmp	[word ptr ds:1FEh], 0AA55h
-                jnz	short no_special_bios_present
+                jnz	short no_special_rom_present
                 cmp	[byte ptr ds:20h], 0EAh
-                jz	short no_special_bios_present
+                jz	short no_special_rom_present
 
 jump_to_special_bios:
                 jmpfar	0e000h,0
@@ -1201,10 +1201,10 @@ jump_to_special_bios:
 ; Interrupt 19h - Warm Boot
 ;---------------------------------------------------------------------------------------------------
 proc		int_19h
-                xor	dx, dx
+                xor	dx, dx 
                 mov	es, dx
-                jmp	short special_bios_detect
-no_special_bios_present:				; ...
+                jmp	short special_rom_detect
+no_special_rom_present:				; ...
                 mov	dl, 80h
 
 read_boot_sector:
