@@ -251,7 +251,7 @@ Print_Startup_Information:				; ...
                 mov	si, offset TestingSystem
                 call	print_string
                 mov	cx, 2
-                call	sub_FE247
+                call	print_backspace
                 mov	ax, es
                 mov	ds, ax
                 assume ds:nothing
@@ -278,7 +278,7 @@ loc_FE182:				; ...
                 adc	ah, 0
                 mov	dx, ax
                 mov	cx, 3
-                call	sub_FE247
+                call	print_backspace
                 mov	al, dh
                 call	sub_FE26B
                 mov	al, dl
@@ -381,16 +381,16 @@ endp		sub_FE238
 
 
 
-proc		sub_FE247 near		; ...
-                mov	ax, 0E08h
+proc		print_backspace near		; ...
+print_bs_loop:  mov	ax, 0E08h
                 int	10h		; - VIDEO - WRITE CHARACTER AND	ADVANCE	CURSOR (TTY WRITE)
                                         ; AL = character, BH = display page (alpha modes)
                                         ; BL = foreground color	(graphics modes)
-                loop	sub_FE247
+                loop	print_bs_loop
 
 locret_FE24E:				; ...
                 retn
-endp		sub_FE247
+endp		print_backspace
 
 
 
