@@ -1183,25 +1183,19 @@ unk_FE689	db  89h	; ?		; ...
                 db  9Eh	; ?
 ; ---------------------------------------------------------------------------
 
-loc_FE6AE:				; ...
+special_bios_detect:				; ...
                 test	[byte ptr es:417h], 3
-                jnz	short loc_FE6FA
+                jnz	short read_boot_sector
                 mov	ax, 0E000h
-                out	61h, al		; PC/XT	PPI port B bits:
-                                        ; 0: Tmr 2 gate	??? OR	03H=spkr ON
-                                        ; 1: Tmr 2 data	??  AND	0fcH=spkr OFF
-                                        ; 3: 1=read high switches
-                                        ; 4: 0=enable RAM parity checking
-                                        ; 5: 0=enable I/O channel check
-                                        ; 6: 0=hold keyboard clock low
-                                        ; 7: 0=enable kbrd
+                out	61h, al		;beep
                 mov	ds, ax
                 assume ds:nothing
                 cmp	[word ptr ds:1FEh], 0AA55h
-                jnz	short loc_FE6F8
+                jnz	short no_special_bios_present
                 cmp	[byte ptr ds:20h], 0EAh
-                jz	short loc_FE6F8
+                jz	short no_special_bios_present
 
+jump_to_special_bios:
                 jmpfar	0e000h,0
 ;---------------------------------------------------------------------------------------------------
 ; Interrupt 19h - Warm Boot
@@ -1209,19 +1203,20 @@ loc_FE6AE:				; ...
 proc		int_19h
                 xor	dx, dx
                 mov	es, dx
-                jmp	short loc_FE6AE
-loc_FE6F8:				; ...
+                jmp	short special_bios_detect
+no_special_bios_present:				; ...
                 mov	dl, 80h
 
-loc_FE6FA:				; ...
+read_boot_sector:
+				; ...
                 mov	cx, 3
 
-loc_FE6FD:				; ...
+read_boot_sector_loop:				; ...
                 push	cx
                 mov	ah, dh
                 int	13h		; DISK - RESET DISK SYSTEM
                                         ; DL = drive (if bit 7 is set both hard	disks and floppy disks reset)
-                jb	short loc_FE714
+                jb	short error_disk_system_on_boot
                 mov	bx, 7C00h
                 mov	cx, 1
                 mov	ax, 201h
@@ -1230,16 +1225,16 @@ loc_FE6FD:				; ...
                                         ; DH = head, DL	= drive, ES:BX -> buffer to fill
                                         ; Return: CF set on error, AH =	status,	AL = number of sectors read
                 pop	cx
-                jnb	short loc_FE733
-                loop	loc_FE6FD
+                jnb	short try
+                loop	read_boot_sector_loop
 
-loc_FE714:				; ...
+error_disk_system_on_boot:.
                 shl	dl, 1
-                jb	short loc_FE6FA
+                jb	short read_boot_sector
                 test	[byte ptr es:dsk_motor_stat_], 40h
                 jnz	short System_not_found
                 or	[byte ptr es:dsk_motor_stat_], 40h
-                jmp	short loc_FE6FA
+                jmp	short read_boot_sector
 ; ---------------------------------------------------------------------------
 
 System_not_found:				; ...
@@ -1251,10 +1246,9 @@ System_boot_stop_loop:				; ...
                 jmp	short System_boot_stop_loop
 ; ---------------------------------------------------------------------------
 
-loc_FE733:				; ...
+try:				; ...
                 cmp	[word ptr es:7DFEh], 0AA55h
-                jnz	short loc_FE714
-                ;jmp	far ptr	0:7C00h
+                jnz	short error_disk_system_on_boot
                 jmpfar 0,7C00h
 endp		int_19h
 ; ---------------------------------------------------------------------------
