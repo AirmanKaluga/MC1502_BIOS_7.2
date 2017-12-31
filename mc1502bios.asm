@@ -4791,7 +4791,9 @@ gfx_chars	db	000h, 000h, 000h, 000h, 000h, 000h, 000h, 000h		;   0  nul
                 db	0E0h, 030h, 030h, 01Ch,	030h, 030h, 0E0h, 000h		; 125  }   +
                 db	076h, 0DCh, 000h, 000h,	000h, 000h, 000h, 000h		; 126  ~   +
                 db	000h, 010h, 038h, 06Ch,	0C6h, 0C6h, 0FEh, 000h		; 127  del +
-; ---------------------------------------------------------------------------
+;------------------------------------------------------------------------------------
+; Interrupt 1Ah -- Real time Clock Function
+;------------------------------------------------------------------------------------
 proc 		int_1Ah near
                 push	ds
                 push	ax
@@ -4800,30 +4802,29 @@ proc 		int_1Ah near
                 assume ds:nothing
                 pop	ax
                 or	ah, ah
-                jz	short loc_FFE80
+                jz	short Read_clock
                 dec	ah
-                jz	short loc_FFE92
+                jz	short Set_clock
 
-loc_FFE7E:				; ...
+exit_int_1a:				; ...
                 pop	ds
                 assume ds:nothing
                 iret
 endp		int_1Ah
-; ---------------------------------------------------------------------------
 
-loc_FFE80:				; ...
+Read_Clock:				; ...
                 mov	al, [ds:timer_rolled_]
                 mov	[byte ptr ds:timer_rolled_], 0
                 mov	cx, [ds:timer_hi_]
                 mov	dx, [ds:timer_low_]
-                jmp	short loc_FFE7E
+                jmp	short exit_int_1a
 ; ---------------------------------------------------------------------------
 
-loc_FFE92:				; ...
+Set_CLock:				; ...
                 mov	[ds:timer_low_], dx
                 mov	[ds:timer_hi_], cx
                 mov	[byte ptr ds:timer_rolled_], 0
-                jmp	short loc_FFE7E
+                jmp	short exit_int_1a
 ; ---------------------------------------------------------------------------
 proc		int_08h near
                 push	ds
